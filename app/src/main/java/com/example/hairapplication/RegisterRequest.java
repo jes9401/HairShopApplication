@@ -19,7 +19,25 @@ import java.util.Map;
             parameters.put("gender",gender);
             parameters.put("nickname", nickname);
             parameters.put("phone", phone);
+
         }
+        public RegisterRequest(String ID, String password, String name, String gender, String nickname, String phone, String hairshop, String type, Response.Listener<String> listener){
+            super(Method.POST, URL, listener,null); // 해당 URL에 POST 방식으로 전송
+            parameters = new HashMap<>(); // HashMap으로 초기화
+            parameters.put("ID", ID);
+            parameters.put("password", password);
+            parameters.put("name", name);
+            parameters.put("gender",gender);
+            parameters.put("nickname", nickname);
+            parameters.put("phone", phone);
+            parameters.put("hairshop", hairshop);
+            parameters.put("type", type);
+        }
+
+
+
+
+
         @Override
         public Map<String, String> getParams(){
             return parameters;
