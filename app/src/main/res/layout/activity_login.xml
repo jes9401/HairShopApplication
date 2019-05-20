@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0DE91E63">
+    <TextView
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="헤어의 참견"
+        android:layout_gravity="center"
+        android:textSize="30dp"
+        android:textColor="#CDE91E63"/>
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/hair_icon"
+        android:layout_gravity="center"
+        android:id="@+id/image1"/>
+    <EditText
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:hint="  아이디"
+        android:textColorHint="#FFFFFF"
+        android:id="@+id/idText" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint="  비밀번호"
+        android:id="@+id/passwordText" />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="로그인"
+        android:id="@+id/loginBtn"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#1EE91E63"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"/>
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="회원 가입"
+        android:id="@+id/registerBtn"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#1EE91E63"/>
+</LinearLayout>
