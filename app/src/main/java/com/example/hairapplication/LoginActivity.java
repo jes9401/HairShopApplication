@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,8 +72,10 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             JSONObject jsonResponse = new JSONObject(response); // 해당 결과를 받아옴
                              boolean success = jsonResponse.getBoolean("success");
+                            int permission = jsonResponse.getInt("permission"); //  사용자의 permission을 받아옴 (디자이너 = 0, 사용자 =1)
+     //                       Log.e("permission = "+permission, "permission");
 
-                             if(success) {  // 로그인 성공
+                             if(success && permission == 1) {  // 로그인 성공 && 승인받은 아이디
                                  AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                  dialog = builder.setMessage("로그인에 성공했습니다.")
                                          .setPositiveButton("확인", null)
@@ -83,14 +86,25 @@ public class LoginActivity extends AppCompatActivity {
                                  startActivity(intent);
 
                                  finish();
+                             }else if((success ==true ) &&( permission == 0)){ // 아이디와 패스워드는 정상적이지만 아직 승인받지 못한 경우
+                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                 dialog = builder.setMessage("승인 대기중인 디자이너입니다.")
+                                         .setNegativeButton("다시 시도", null)
+                                         .create();
+                                 dialog.show();
+
                              }
-                             else {
+                             else { // 계정을 잘못 입력한 경우
                                  AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                  dialog = builder.setMessage("계정을 다시 확인하세요.")
                                          .setNegativeButton("다시 시도", null)
                                          .create();
                                  dialog.show();
                              }
+
+
+
+
                         }
                         catch (Exception e)
                         {
