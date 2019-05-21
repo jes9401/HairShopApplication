@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -27,7 +28,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RegisterDesignerActivity extends AppCompatActivity {
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
+
+public class RegisterDesignerActivity extends Activity {
+
+    private Activity RegisterDesignerActivity=this;
+    private static final int REQUEST_EXTERNAL_STORAGE=2;
+
     private static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
@@ -43,7 +51,10 @@ public class RegisterDesignerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_designer);
-
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .permitDiskReads()
+                .permitDiskWrites()
+                .permitNetwork().build());
 
 
         btn_capture = (Button) findViewById(R.id.btn_capture);
@@ -53,6 +64,12 @@ public class RegisterDesignerActivity extends AppCompatActivity {
         btn_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int permissionReadStorage = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                int permissionWriteStorage = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(RegisterDesignerActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
+                    Toast.makeText(getApplicationContext(), "권한을 요청 합니다. 버튼을 다시 눌러주십시오.", Toast.LENGTH_SHORT).show();
+                }
                 captureCamera();
             }
         });
@@ -70,6 +87,23 @@ public class RegisterDesignerActivity extends AppCompatActivity {
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               // Log.e("debug","리스너 진입");
+                try {
+                    GMailSender gMailSender = new GMailSender("jes940166@gmail.com", "0313qwQW!@");
+                    gMailSender.sendMail2("자격증 사진 ","", "jes940166@gmail.com",
+                            "/sdcard/Pictures/hair/2019.jpg", "자격증 사진"); // 이미지 메일 전송
+                    Toast.makeText(getApplicationContext(), "이메일을 성공적으로 보냈습니다.", Toast.LENGTH_SHORT).show();
+                } catch (SendFailedException e) {
+                    Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                } catch (MessagingException e) {
+                    Toast.makeText(getApplicationContext(), "사진 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    Log.e("mail", "디버그" + e.toString());
+                    Log.e("mail", "디버그" + e.getMessage());
+                    Log.d("mail", "Exception occured : ");
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
                 Intent completeIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(completeIntent);
             }
@@ -87,21 +121,21 @@ public class RegisterDesignerActivity extends AppCompatActivity {
 
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException ex) {
-                        Log.e("captureCamera Error", ex.toString());
-                    }
-                    if (photoFile != null) {
-                        // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                    Log.e("captureCamera Error", ex.toString());
+                }
+                if (photoFile != null) {
+                    // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
 
-                        Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                        imageUri = providerURI;
+                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                    imageUri = providerURI;
 
-                        // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
+                    // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
 
-                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }
             }
         } else {
@@ -111,10 +145,10 @@ public class RegisterDesignerActivity extends AppCompatActivity {
     }
     public File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        String Stamp = new SimpleDateFormat("yyyy").format(new Date());
+        String imageFileName = Stamp + ".jpg";
         File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "gyeom");
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "hair");
 
         if (!storageDir.exists()) {
             Log.i("mCurrentPhotoPath1", storageDir.toString());
