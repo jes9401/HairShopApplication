@@ -2,7 +2,8 @@ package com.example.hairapplication;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,8 +21,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,10 +55,33 @@ public class RegisterDesignerActivity extends Activity {
     Uri imageUri;
     Uri photoURI, albumURI;
 
+    private String ID;
+    private String password;
+    private String gender;
+    private String name;
+    private String nickname;
+    private String phone;
+    private String hairshop;
+    EditText hairshopText;
+    AlertDialog dialog;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_designer);
+
+        hairshopText = findViewById(R.id.hairshopText);
+
+        Intent intent = getIntent();
+
+        ID = intent.getStringExtra("ID");
+        password = intent.getStringExtra("password");
+        gender = intent.getStringExtra("gender");
+        name = intent.getStringExtra("name");
+        nickname = intent.getStringExtra("nickname");
+        phone = intent.getStringExtra("phone");
+
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .permitDiskReads()
                 .permitDiskWrites()
@@ -84,30 +115,98 @@ public class RegisterDesignerActivity extends Activity {
         checkPermission();
         completeBtn = (Button)findViewById(R.id.completeBtn);
 
-        completeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Log.e("debug","리스너 진입");
-                try {
-                    GMailSender gMailSender = new GMailSender("jes940166@gmail.com", "0313qwQW!@");
-                    gMailSender.sendMail2("자격증 사진 ","", "jes940166@gmail.com",
-                            "/sdcard/Pictures/hair/2019.jpg", "자격증 사진"); // 이미지 메일 전송
-                    Toast.makeText(getApplicationContext(), "이메일을 성공적으로 보냈습니다.", Toast.LENGTH_SHORT).show();
-                } catch (SendFailedException e) {
-                    Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
-                } catch (MessagingException e) {
-                    Toast.makeText(getApplicationContext(), "사진 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                    Log.e("mail", "디버그" + e.toString());
-                    Log.e("mail", "디버그" + e.getMessage());
-                    Log.d("mail", "Exception occured : ");
-                } catch (Exception e) {
-                    e.printStackTrace();
 
-                }
-                Intent completeIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(completeIntent);
-            }
-        });
+
+        completeBtn.setOnClickListener(new View.OnClickListener() { // 사용자 가입 시 회원가입 후 로그인페이지로 이동
+                    @Override
+                    public void onClick(View view) {
+
+                        hairshop = hairshopText.getText().toString();
+
+                        if(hairshop.equals("")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);
+                            dialog = builder.setMessage("빈 칸 없이 입력해주세요")
+                                    .setNegativeButton("확인", null)
+                                    .create();
+                            dialog.show();
+                            return;
+                        }
+
+
+                        Response.Listener<String> responseListener = new Response.Listener<String>(){
+
+                            @Override
+                            public void onResponse(String response) {
+                                try{
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean success = jsonResponse.getBoolean("success");
+                                    if(success){ // 회원 등록에 성공했을 경우 성공 알림창 출력
+
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);
+                                        dialog = builder.setMessage("회원 등록에 성공했습니다.")
+                                                .setPositiveButton("확인", null)
+                                                .create();
+                                        dialog.show();
+
+                                        //                               finish();
+                                        Intent completeIntent = new Intent(getApplicationContext(), LoginActivity.class); // 로그인 화면으로 돌아감
+                                        startActivity(completeIntent);
+                                        progressDialog.dismiss();
+
+                                    }else{ // 회원 등록에 실패한 경우 실패 알림창 출력
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);
+                                        dialog = builder.setMessage("회원 등록에 실패했습니다.")
+                                                .setNegativeButton("확인", null)
+                                                .create();
+                                        dialog.show();
+
+                                    }
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace(); // 오류 출력
+                                }
+
+                            }
+                        } ;
+
+
+
+                        try {
+
+
+                            GMailSender gMailSender = new GMailSender("wjddmltjr2222@gmail.com", "wjddmltjr1!");
+                            gMailSender.sendMail2("자격증 사진 ","", "wjddmltjr2222@gmail.com",
+                                    "/sdcard/Pictures/hair/2019.jpg", "자격증 사진"); // 이미지 메일 전송
+
+                            Toast.makeText(getApplicationContext(), "이메일을 성공적으로 보냈습니다.", Toast.LENGTH_SHORT).show();
+                        } catch (SendFailedException e) {
+                            Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                        } catch (MessagingException e) {
+                            Toast.makeText(getApplicationContext(), "사진 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            Log.e("mail", "디버그" + e.toString());
+                            Log.e("mail", "디버그" + e.getMessage());
+                            Log.d("mail", "Exception occured : ");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+       /*
+                        progressDialog = new ProgressDialog(RegisterDesignerActivity.this);
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialog.setMessage("사진을 전송중입니다...");
+                        progressDialog.show();
+                        progressDialog.dismiss();
+                        */
+
+                        RegisterRequest registerRequest = new RegisterRequest(ID, password, name, gender, nickname, phone, hairshop, responseListener);
+                        RequestQueue queue = Volley.newRequestQueue(RegisterDesignerActivity.this);
+                        queue.add(registerRequest);
+
+
+                    }
+                });
+
 
 
     }

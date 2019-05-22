@@ -1,5 +1,6 @@
 package com.example.hairapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,6 +30,9 @@ public class MyPageActivity extends AppCompatActivity {
     EditText designerText; // 디자이너의 닉네임을 받아올 EditText
     private String designerPhone; // 서버에서 받아온 디자이너의 번호를 저장할 변수
     TextView phoneNumber; // 서버에서 받아온 디자이너의 번호를 표시해줄 TextView
+    ProgressDialog progressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

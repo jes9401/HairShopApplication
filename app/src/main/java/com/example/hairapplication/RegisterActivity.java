@@ -148,7 +148,20 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                ID = idText.getText().toString();
+                password = passwordText.getText().toString();
+                name = nameText.getText().toString();
+                nickname = nicknameText.getText().toString();
+                phone = phoneText.getText().toString();
+
+
                 Intent completeIntent = new Intent(getApplicationContext(), RegisterDesignerActivity.class);
+                completeIntent.putExtra("ID", ID);
+                completeIntent.putExtra("password", password);
+                completeIntent.putExtra("name", name);
+                completeIntent.putExtra("nickname", nickname);
+                completeIntent.putExtra("phone", phone);
+                completeIntent.putExtra("gender", gender);
                 startActivity(completeIntent);
             }
         });

@@ -29,7 +29,7 @@
         android:hint="       헤어샵"
         android:textColorHint="#FFFFFF"
 
-        android:id="@+id/region"
+        android:id="@+id/hairshopText"
         ></EditText>
 
 
