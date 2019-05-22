@@ -142,7 +142,6 @@ public class RegisterDesignerActivity extends Activity {
                                     boolean success = jsonResponse.getBoolean("success");
                                     if(success){ // 회원 등록에 성공했을 경우 성공 알림창 출력
 
-
                                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);
                                         dialog = builder.setMessage("회원 등록에 성공했습니다.")
                                                 .setPositiveButton("확인", null)

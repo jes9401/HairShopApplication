@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String ID = idText.getText().toString();
-                String password = passwordText.getText().toString();
+               final String ID = idText.getText().toString();
+               final String password = passwordText.getText().toString();
 
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -70,39 +70,85 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try
                         {
-                            JSONObject jsonResponse = new JSONObject(response); // 해당 결과를 받아옴
-                             boolean success = jsonResponse.getBoolean("success");
-                            int permission = jsonResponse.getInt("permission"); //  사용자의 permission을 받아옴 (디자이너 = 0, 사용자 =1)
-     //                       Log.e("permission = "+permission, "permission");
 
-                             if(success && permission == 1) {  // 로그인 성공 && 승인받은 아이디
-                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                 dialog = builder.setMessage("로그인에 성공했습니다.")
-                                         .setPositiveButton("확인", null)
-                                         .create();
-                                 dialog.show();
-                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);  // 메인 액티비티로 넘어감
-                                 intent.putExtra("userID", idText.getText().toString());
-                                 startActivity(intent);
+                            if(idText.getText().toString().equals("") || passwordText.getText().toString().equals("")){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                dialog = builder.setMessage("계정을 다시 확인하세요.")
+                                        .setNegativeButton("다시 시도", null)
+                                        .create();
+                                dialog.show();
+                            }else {
 
-                                 finish();
-                             }else if((success ==true ) &&( permission == 0)){ // 아이디와 패스워드는 정상적이지만 아직 승인받지 못한 경우
-                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                 dialog = builder.setMessage("승인 대기중인 디자이너입니다.")
-                                         .setNegativeButton("다시 시도", null)
-                                         .create();
-                                 dialog.show();
+                                JSONObject jsonResponse = new JSONObject(response); // 해당 결과를 받아옴
+                                boolean success = jsonResponse.getBoolean("success");
+                                int permission = jsonResponse.getInt("permission"); //  사용자의 permission을 받아옴 (디자이너 = 0, 사용자 =1)
+                                //                       Log.e("permission = "+permission, "permission");
 
-                             }
-                             else { // 계정을 잘못 입력한 경우
-                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                 dialog = builder.setMessage("계정을 다시 확인하세요.")
-                                         .setNegativeButton("다시 시도", null)
-                                         .create();
-                                 dialog.show();
-                             }
+                                if(success){
+                                    switch (permission){
+                                        case 1:
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                            dialog = builder.setMessage("로그인에 성공했습니다.")
+                                                    .setPositiveButton("확인", null)
+                                                    .create();
+                                            dialog.show();
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);  // 메인 액티비티로 넘어감
+                                            intent.putExtra("userID", idText.getText().toString());
+                                            startActivity(intent);
+
+                                            finish();
+
+                                            break;
+                                        case 0:
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
+                                            dialog = builder1.setMessage("승인 대기중인 디자이너입니다.")
+                                                    .setNegativeButton("다시 시도", null)
+                                                    .create();
+                                            dialog.show();
+                                            break;
+                                    }
+                                }else{
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    dialog = builder.setMessage("계정을 다시 확인하세요.")
+                                            .setNegativeButton("다시 시도", null)
+                                            .create();
+                                    dialog.show();
+                                }
 
 
+
+                           /*
+
+                                if (success && permission == 1) {  // 로그인 성공 && 승인받은 아이디
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    dialog = builder.setMessage("로그인에 성공했습니다.")
+                                            .setPositiveButton("확인", null)
+                                            .create();
+                                    dialog.show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);  // 메인 액티비티로 넘어감
+                                    intent.putExtra("userID", idText.getText().toString());
+                                    startActivity(intent);
+
+                                    finish();
+                                }
+
+
+                                else if ((success == true) && (permission == 0)) { // 아이디와 패스워드는 정상적이지만 아직 승인받지 못한 경우
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    dialog = builder.setMessage("승인 대기중인 디자이너입니다.")
+                                            .setNegativeButton("다시 시도", null)
+                                            .create();
+                                    dialog.show();
+
+                                } else if(success == false){ // 계정을 잘못 입력한 경우
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    dialog = builder.setMessage("계정을 다시 확인하세요.")
+                                            .setNegativeButton("다시 시도", null)
+                                            .create();
+                                    dialog.show();
+                                }
+*/
+                            }
 
 
                         }

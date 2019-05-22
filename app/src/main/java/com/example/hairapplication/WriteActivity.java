@@ -45,6 +45,7 @@ public class WriteActivity extends AppCompatActivity {
         final CheckBox pictureCheck = (CheckBox)findViewById(R.id.pictureCheck);
         final FrameLayout pleaseFrameLayout = (FrameLayout)findViewById(R.id.pleaseFrameLayout);
 
+        pleaseFrameLayout.setVisibility(View.GONE);
 
         long now = System.currentTimeMillis();  // 현재 시간 받아오기
         Date date1 = new Date(now);
@@ -61,10 +62,14 @@ public class WriteActivity extends AppCompatActivity {
         pictureCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pleaseFrameLayout.setVisibility(View.VISIBLE);
+                if(pictureCheck.isChecked()){
+
+                    pleaseFrameLayout.setVisibility(View.VISIBLE);
+                }else {
+                    pleaseFrameLayout.setVisibility(View.GONE);
+                }
             }
         });
-
 
 
         completeBtn.setOnClickListener(new View.OnClickListener() {
