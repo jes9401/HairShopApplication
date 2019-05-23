@@ -58,12 +58,19 @@ public class ReviewWriteActivity extends AppCompatActivity {
         dateText.setText(reviewDate);
 
 
+
         pictureCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reviewFrameLayout.setVisibility(View.VISIBLE);
+                if(pictureCheck.isChecked()){
+
+                    reviewFrameLayout.setVisibility(View.VISIBLE);
+                }else {
+                    reviewFrameLayout.setVisibility(View.GONE);
+                }
             }
         });
+
 
 
 

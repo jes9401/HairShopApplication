@@ -109,6 +109,11 @@
                 android:background="@drawable/edge"
                 android:textSize="15dp"
 
+                android:minLines="10"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:overScrollMode="always"
+
                 android:id="@+id/contentsText"
                 ></EditText>
 
