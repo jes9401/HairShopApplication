@@ -2,21 +2,41 @@ package com.example.hairapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 public class PleaseListAdapter extends BaseAdapter {
     private Context context;
     private List<Please> pleaseList;
+    AlertDialog dialog;
+    private Fragment parent;
+
+    public PleaseListAdapter(Context context, List<Please> pleaseList, Fragment parent) {
+        this.context = context;
+        this.pleaseList = pleaseList;
+        this.parent = parent;
+    }
 
     public PleaseListAdapter(Context context, List<Please> pleaseList) {
         this.context = context;
-        this.pleaseList = pleaseList; }
+        this.pleaseList = pleaseList;
+    }
+
     @Override
     public int getCount() {
         return pleaseList.size();
@@ -33,11 +53,67 @@ public class PleaseListAdapter extends BaseAdapter {
     } // 아이템의 인덱스를 가져옴
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         final View v = View.inflate(context, R.layout.please, null); // 레이아웃 참조
-        TextView pleaseText = (TextView)v.findViewById(R.id.pleaseText);
+        final TextView pleaseText = (TextView)v.findViewById(R.id.pleaseText);
         TextView nameText = (TextView)v.findViewById(R.id.nameText);
         TextView dateText = (TextView)v.findViewById(R.id.dateText);
+
+        TextView deleteButton = (TextView)v.findViewById(R.id.delete);
+        TextView updateButton = (TextView)v.findViewById(R.id.update);
+
+   //     deleteButton.setTag(i);
+  //
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Response.Listener<String> responseListener = new Response.Listener<String>(){
+
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+
+
+
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){ // 회원 등록에 성공했을 경우 성공 알림창 출력
+                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                dialog = builder.setMessage("게시글이 삭제되었습니다.")
+                                        .setPositiveButton("확인", null)
+                                        .create();
+                                dialog.show();
+                                Log.e("success ", ""+success);
+                                pleaseList.remove(i);
+                                notifyDataSetChanged();
+
+                            }else{ // 회원 등록에 실패한 경우 실패 알림창 출력
+                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                dialog = builder.setMessage("삭제에 실패하였습니다.")
+                                        .setNegativeButton("확인", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        }
+                        catch (Exception e){
+                            e.printStackTrace(); // 오류 출력
+                        }
+
+                    }
+                } ;
+                PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
+                RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                queue.add(pleasedeleteRequest);
+                Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
+
+            }
+
+        });
+
+
+      //  deleteButton.setFocusable(false);
+    //    v.setFocusable(false);
 
         pleaseText.setText(pleaseList.get(i).getPlease());
         nameText.setText(pleaseList.get(i).getName());

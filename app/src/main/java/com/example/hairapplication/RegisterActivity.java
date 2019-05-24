@@ -152,8 +152,16 @@ public class RegisterActivity extends AppCompatActivity {
                 password = passwordText.getText().toString();
                 name = nameText.getText().toString();
                 nickname = nicknameText.getText().toString();
-                phone = phoneText.getText().toString();
 
+                phone = phoneText.getText().toString();
+                if(ID.equals("")||password.equals("")||name.equals("")||nickname.equals("")||phone.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("빈 칸 없이 입력해주세요")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+                    return;
+                }
 
                 Intent completeIntent = new Intent(getApplicationContext(), RegisterDesignerActivity.class);
                 completeIntent.putExtra("ID", ID);

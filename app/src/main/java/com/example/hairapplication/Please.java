@@ -1,5 +1,7 @@
 package com.example.hairapplication;
 
+import android.widget.Button;
+
 public class Please {
     String please; // 참견해주세요 제목
     String name;  // 작성자

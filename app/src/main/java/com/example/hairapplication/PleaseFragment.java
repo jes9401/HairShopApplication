@@ -81,6 +81,7 @@ public class PleaseFragment extends Fragment {
     }
 
 
+
     private ListView pleaseListView;
     private PleaseListAdapter adapter;
     private List<Please> pleaseList;
@@ -103,7 +104,7 @@ public class PleaseFragment extends Fragment {
    //     Log.e("nickname = "+nickname , "nickname");
     //    test.setText("나오냐? >>"+MainActivity.nickname+" << ");
 
-        adapter = new PleaseListAdapter(getContext().getApplicationContext(), pleaseList);
+        adapter = new PleaseListAdapter(getContext().getApplicationContext(), pleaseList, this);
         pleaseListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭
 
         new BackgroundTask().execute(); // 데이터베이스 연동
@@ -200,6 +201,7 @@ public class PleaseFragment extends Fragment {
                     Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents); // 객체 생성 (생성자)
                     pleaseList.add(please); // 리스트에 추가
                     adapter.notifyDataSetChanged();
+
 
                     count++;
 
