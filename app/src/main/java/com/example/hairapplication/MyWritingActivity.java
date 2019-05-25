@@ -42,7 +42,7 @@ public class MyWritingActivity extends AppCompatActivity {
 
         pleaseListView = (ListView)findViewById(R.id.pleaseListView);
         pleaseList = new ArrayList<Please>(); // 배열에 넣어줌
-        adapter = new PleaseListAdapter(getApplicationContext(), pleaseList);
+        adapter = new PleaseListAdapter(getApplicationContext(), pleaseList, this);
         pleaseListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭
 
        new MyWritingActivity.BackgroundTask_please().execute(); // 데이터베이스 연동
@@ -50,9 +50,7 @@ public class MyWritingActivity extends AppCompatActivity {
         pleaseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //               pleaseListView.getItemAtPosition(i);
 
-                Log.e("timecount", "count");
 
                 Intent intent = new Intent(getApplicationContext() ,PleaseContentsActivity.class);
 

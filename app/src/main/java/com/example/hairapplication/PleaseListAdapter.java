@@ -1,5 +1,6 @@
 package com.example.hairapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class PleaseListAdapter extends BaseAdapter {
     private List<Please> pleaseList;
     AlertDialog dialog;
     private Fragment parent;
+    private Activity activity;
 
     public PleaseListAdapter(Context context, List<Please> pleaseList, Fragment parent) {
         this.context = context;
@@ -32,9 +34,10 @@ public class PleaseListAdapter extends BaseAdapter {
         this.parent = parent;
     }
 
-    public PleaseListAdapter(Context context, List<Please> pleaseList) {
+    public PleaseListAdapter(Context context, List<Please> pleaseList, Activity activity) {
         this.context = context;
         this.pleaseList = pleaseList;
+        this.activity = activity;
     }
 
     @Override
@@ -62,39 +65,51 @@ public class PleaseListAdapter extends BaseAdapter {
         TextView deleteButton = (TextView)v.findViewById(R.id.delete);
         TextView updateButton = (TextView)v.findViewById(R.id.update);
 
-   //     deleteButton.setTag(i);
-  //
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Response.Listener<String> responseListener = new Response.Listener<String>(){
 
+                if (MainActivity.nickname.equals(pleaseList.get(i).getName())) {
+
+                    Response.Listener<String> responseListener = new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
                         try{
+                                Log.e("nickname = "+ MainActivity.nickname, ", pleaseName = "+pleaseList.get(i).getName());
 
 
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
 
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success){ // 회원 등록에 성공했을 경우 성공 알림창 출력
-                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                dialog = builder.setMessage("게시글이 삭제되었습니다.")
-                                        .setPositiveButton("확인", null)
-                                        .create();
-                                dialog.show();
-                                Log.e("success ", ""+success);
-                                pleaseList.remove(i);
-                                notifyDataSetChanged();
+                                if (success) { // 게시글 삭제에 성공했을 경우 성공 알림창 출력
 
-                            }else{ // 회원 등록에 실패한 경우 실패 알림창 출력
-                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                dialog = builder.setMessage("삭제에 실패하였습니다.")
-                                        .setNegativeButton("확인", null)
-                                        .create();
-                                dialog.show();
-                            }
+                                    if (activity == null) {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                        dialog = builder.setMessage("게시글이 삭제되었습니다.")
+                                                .setPositiveButton("확인", null)
+                                                .create();
+                                        dialog.show();
+
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                                        dialog = builder.setMessage("게시글이 삭제되었습니다.")
+                                                .setPositiveButton("확인", null)
+                                                .create();
+                                        dialog.show();
+                                    }
+                                    pleaseList.remove(i);
+                                    notifyDataSetChanged();
+
+                                } else { // 게시글 삭제에 실패한 경우 실패 알림창 출력
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                    dialog = builder.setMessage("삭제에 실패하였습니다.")
+                                            .setNegativeButton("확인", null)
+                                            .create();
+                                    dialog.show();
+                                }
+
                         }
                         catch (Exception e){
                             e.printStackTrace(); // 오류 출력
@@ -102,18 +117,38 @@ public class PleaseListAdapter extends BaseAdapter {
 
                     }
                 } ;
+                /*
                 PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
                 RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
                 queue.add(pleasedeleteRequest);
                 Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
+*/
+                PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
+                RequestQueue queue1 = Volley.newRequestQueue(context);
+                queue1.add(pleasedeleteRequest);
+                Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
+
+                }else {
+                    if (activity == null) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                        dialog = builder.setMessage("자신이 작성한 글만 삭제할 수 있습니다.")
+                                .setPositiveButton("확인", null)
+                                .create();
+                        dialog.show();
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        dialog = builder.setMessage("자신이 작성한 글만 삭제할 수 있습니다.")
+                                .setPositiveButton("확인", null)
+                                .create();
+                        dialog.show();
+                    }
+                }
 
             }
 
         });
-
-
-      //  deleteButton.setFocusable(false);
-    //    v.setFocusable(false);
 
         pleaseText.setText(pleaseList.get(i).getPlease());
         nameText.setText(pleaseList.get(i).getName());

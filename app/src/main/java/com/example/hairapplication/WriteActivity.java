@@ -142,12 +142,22 @@ public class WriteActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(WriteActivity.this);
                 queue.add(pleaseRequest);
 
-
                 finish();
  //               Intent intent = new Intent(getApplicationContext(), PleaseFragment.class);
  //               startActivity(intent);
             }
         });
 
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null)
+        {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }
