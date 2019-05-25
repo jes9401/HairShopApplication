@@ -7,7 +7,7 @@
 
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -28,7 +28,7 @@
 
 
         <TextView
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="20dp"
             android:layout_gravity="right"
             android:text="수정"
@@ -37,11 +37,12 @@
             android:background="@color/colorBack"
             android:id="@+id/update"
             android:clickable="true"
-
+            android:layout_toLeftOf="@+id/delete"
+            android:gravity="center"
             />
 
         <TextView
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="20dp"
             android:layout_gravity="right"
             android:text="삭제"
@@ -50,11 +51,24 @@
             android:background="@color/colorBack"
             android:id="@+id/delete"
             android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
 
             />
 
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:text="공개여부"
+            android:id="@+id/secret"
+            android:layout_below="@+id/delete"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:textSize="12dp"
 
-    </LinearLayout>
+            />
+
+    </RelativeLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

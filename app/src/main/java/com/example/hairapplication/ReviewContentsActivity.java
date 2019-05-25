@@ -5,11 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -58,6 +61,9 @@ public class ReviewContentsActivity extends AppCompatActivity {
         String strCurDate = CurDateFormat.format(date1);
         reviewcommentDate = strCurDate; // 현재 날짜 저장
 
+        final ScrollView sv1;
+        sv1 = (ScrollView)findViewById(R.id.sv1);
+
         final EditText reviewcommentText= (EditText)findViewById(R.id.reviewcommentText);
 
         Intent intent = getIntent();
@@ -75,10 +81,36 @@ public class ReviewContentsActivity extends AppCompatActivity {
         date.setText(intent.getStringExtra("Date"));
         contents.setText(intent.getStringExtra("Contents"));
 
+        contents.setMovementMethod(new ScrollingMovementMethod());
+
+        contents.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                sv1.requestDisallowInterceptTouchEvent(true);
+                //스크롤뷰가 텍스트뷰의 터치이벤트를 가져가지 못하게 함
+                return false;
+            }
+        });
+
+
+
+        reviewcommentText.setOnTouchListener(new View.OnTouchListener() { // 댓글 작성 시 스크롤 생성
+            public boolean onTouch(View view, MotionEvent event) {
+                if (view.getId() ==R.id.commentText) {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction()&MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_UP:
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
 
         Index = intent.getIntExtra("Index", 1); // reviewList의 고유 번호, 이 값을 reviewcomment테이블에 넣고 그에 맞는 댓글을 가져옴
-
-
 
         reviewcommentListView = (ListView)findViewById(R.id.ReviewCommentListView);
         reviewcommentList = new ArrayList<ReviewComment>(); // 배열에 넣어줌

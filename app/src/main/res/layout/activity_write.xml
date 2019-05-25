@@ -122,8 +122,30 @@
 
 
     </LinearLayout>
+    <RadioGroup
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:id="@+id/secretGroup"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공개"
+            android:layout_weight="1"
+            android:checked="true"
+            android:id="@+id/open"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비공개"
+            android:layout_weight="1"
+            android:id="@+id/notopen"
+            />
 
-
+    </RadioGroup>
 
 
 

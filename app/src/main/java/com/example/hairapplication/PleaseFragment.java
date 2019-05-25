@@ -1,5 +1,6 @@
 package com.example.hairapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -81,7 +82,7 @@ public class PleaseFragment extends Fragment {
     }
 
 
-
+    AlertDialog dialog;
     private ListView pleaseListView;
     private PleaseListAdapter adapter;
     private List<Please> pleaseList;
@@ -124,18 +125,48 @@ public class PleaseFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
  //               pleaseListView.getItemAtPosition(i);
 
-                Log.e("timecount", "count");
+/*
+                switch (pleaseList.get(i).getAccess()){
+                    case 1:
 
-                Intent intent = new Intent(getActivity(), PleaseContentsActivity.class);
 
-                intent.putExtra("Title", pleaseList.get(i).please);  // 인텐트로 정보를 넘겨줌
-                intent.putExtra("Name", pleaseList.get(i).name);
-                intent.putExtra("Date", pleaseList.get(i).date);
-                intent.putExtra("Contents", pleaseList.get(i).contents);
-                intent.putExtra("Index", pleaseList.get(i).num);
 
-                startActivity(intent);
+                }
+                */
+                Log.e("type = "+MainActivity.type, "type");
 
+
+                if(pleaseList.get(i).getAccess() == 1 || MainActivity.nickname.equals(pleaseList.get(i).getName()) ) {
+
+
+                    Intent intent = new Intent(getActivity(), PleaseContentsActivity.class);
+
+                    intent.putExtra("Title", pleaseList.get(i).please);  // 인텐트로 정보를 넘겨줌
+                    intent.putExtra("Name", pleaseList.get(i).name);
+                    intent.putExtra("Date", pleaseList.get(i).date);
+                    intent.putExtra("Contents", pleaseList.get(i).contents);
+                    intent.putExtra("Index", pleaseList.get(i).num);
+
+                    startActivity(intent);
+                }else if( MainActivity.type.equals("designer")){
+                    Intent intent = new Intent(getActivity(), PleaseContentsActivity.class);
+
+                    intent.putExtra("Title", pleaseList.get(i).please);  // 인텐트로 정보를 넘겨줌
+                    intent.putExtra("Name", pleaseList.get(i).name);
+                    intent.putExtra("Date", pleaseList.get(i).date);
+                    intent.putExtra("Contents", pleaseList.get(i).contents);
+                    intent.putExtra("Index", pleaseList.get(i).num);
+
+                    startActivity(intent);
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    dialog = builder.setMessage("비밀글 입니다.")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+
+                }
 
             }
         });
@@ -188,7 +219,7 @@ public class PleaseFragment extends Fragment {
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
                 String  pleaseTitle, pleaseName, pleaseDate, pleaseContents; // 변수 선언
-                int pleaseNum;
+                int pleaseNum, pleaseAccess;
                 while(count < jsonArray.length())
                 {
                     JSONObject object = jsonArray.getJSONObject(count); // 현재 배열의 원소값
@@ -197,8 +228,9 @@ public class PleaseFragment extends Fragment {
                     pleaseDate = object.getString("pleaseDate");
                     pleaseContents = object.getString("pleaseContents");
                     pleaseNum = object.getInt("pleaseNum");
+                    pleaseAccess = object.getInt("access");
 
-                    Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents); // 객체 생성 (생성자)
+                    Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseAccess); // 객체 생성 (생성자)
                     pleaseList.add(please); // 리스트에 추가
                     adapter.notifyDataSetChanged();
 

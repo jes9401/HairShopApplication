@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static String nickname;
-
+    public static String type;
     public String userID;
     private AlertDialog dialog;
     ImageButton homeButton, mypageButton, mapButton;
@@ -278,6 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
                 nickname = object.getString("nickname");
                 Log.e("nickname = "+nickname , "nickname");
+                type = object.getString("type");
+                Log.e("nick type = "+type,"type");
 
 
 

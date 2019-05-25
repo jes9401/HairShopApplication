@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class PleaseListAdapter extends BaseAdapter {
         TextView deleteButton = (TextView)v.findViewById(R.id.delete);
         TextView updateButton = (TextView)v.findViewById(R.id.update);
 
+        TextView secretText = (TextView)v.findViewById(R.id.secret);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +151,15 @@ public class PleaseListAdapter extends BaseAdapter {
             }
 
         });
+
+        if(pleaseList.get(i).getAccess() == 1){
+            secretText.setText("공개");
+        }else{
+            secretText.setText("비공개");
+        }
+
+
+
 
         pleaseText.setText(pleaseList.get(i).getPlease());
         nameText.setText(pleaseList.get(i).getName());

@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,7 +37,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write);
+        setContentView(R.layout.activity_review_write);
 
         Button completeBtn = (Button)findViewById(R.id.completeBtn);
         final EditText titleText = (EditText)findViewById(R.id.titleText);
@@ -46,6 +47,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
         final CheckBox pictureCheck = (CheckBox)findViewById(R.id.pictureCheck);
         final FrameLayout reviewFrameLayout = (FrameLayout)findViewById(R.id.reviewFrameLayout);
 
+        reviewFrameLayout.setVisibility(View.GONE);
 
         long now = System.currentTimeMillis();  // 현재 시간 받아오기
         Date date1 = new Date(now);
@@ -57,7 +59,19 @@ public class ReviewWriteActivity extends AppCompatActivity {
         writer.setText(MainActivity.nickname);
         dateText.setText(reviewDate);
 
-
+        contentsText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View view, MotionEvent event) {
+                if (view.getId() ==R.id.contentsText) {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction()&MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_UP:
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         pictureCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +84,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
                 }
             }
         });
+
 
 
 

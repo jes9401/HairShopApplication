@@ -8,7 +8,7 @@ public class Please {
     String date; // 작성일자
     String contents; // 내용
     int num; // 고유 번호
-
+    int access; // 비밀글 접근성
 
 
     public Please(int num, String please, String name, String date, String contents) {
@@ -17,6 +17,22 @@ public class Please {
         this.name = name;
         this.date = date;
         this.contents = contents;
+    }
+    public Please(int num, String please, String name, String date, String contents, int access) {
+        this.num = num;
+        this.please = please;
+        this.name = name;
+        this.date = date;
+        this.contents = contents;
+        this.access = access;
+    }
+
+    public int getAccess() {
+        return access;
+    }
+
+    public void setAccess(int access) {
+        this.access = access;
     }
 
     public String getPlease() {

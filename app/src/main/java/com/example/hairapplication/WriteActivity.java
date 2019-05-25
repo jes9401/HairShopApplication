@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -27,11 +30,12 @@ public class WriteActivity extends AppCompatActivity {
     private String pleaseName;
     private String pleaseDate;
     private String pleaseContents;
+    private int access;
+    private String secret;
 
-
- //   final TextView writer = (TextView)findViewById(R.id.writer);
     private AlertDialog dialog; // 알림창
 
+     RadioGroup secretGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,22 @@ public class WriteActivity extends AppCompatActivity {
         final TextView dateText = (TextView)findViewById(R.id.dateText);
         final CheckBox pictureCheck = (CheckBox)findViewById(R.id.pictureCheck);
         final FrameLayout pleaseFrameLayout = (FrameLayout)findViewById(R.id.pleaseFrameLayout);
+        secretGroup = (RadioGroup)findViewById(R.id.secretGroup);
+
+            access = 1;
+        secretGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() { // 성별 라디오 버튼에 대한 이벤트처리
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton secretButton = (RadioButton)findViewById(i); // 현재 선택된 라디오버튼 받아옴
+                secret = secretButton.getText().toString();
+                if(secret.equals("공개")){
+                    access = 1;
+                }else {
+                    access = 0;
+                }
+                Log.e("access = "+ access, "access");
+            }
+        });
 
         pleaseFrameLayout.setVisibility(View.GONE);
 
@@ -138,10 +158,10 @@ public class WriteActivity extends AppCompatActivity {
 
                     }
                 } ;
-                PleaseRequest pleaseRequest = new PleaseRequest(pleaseTitle, pleaseName, pleaseDate, pleaseContents, responseListener);
+                PleaseRequest pleaseRequest = new PleaseRequest(pleaseTitle, pleaseName, pleaseDate, pleaseContents, access, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(WriteActivity.this);
                 queue.add(pleaseRequest);
-
+                Log.e("access = "+ access, "access");
                 finish();
  //               Intent intent = new Intent(getApplicationContext(), PleaseFragment.class);
  //               startActivity(intent);

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBack"
+    android:id="@+id/sv1"
     >
 
     <LinearLayout
@@ -131,22 +132,28 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:textColor="#000000"
+                android:textColor="#1e1e1e"
                 android:textSize="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="댓글 달기"/>
+                android:layout_gravity="top"
+                android:text="댓글 달기"
+                />
 
             <EditText
+                android:padding="3dp"
                 android:gravity="left"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:background="@drawable/edge"
                 android:textSize="15dp"
+                android:minLines="10"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:overScrollMode="always"
 
                 android:id="@+id/reviewcommentText"
                 ></EditText>
