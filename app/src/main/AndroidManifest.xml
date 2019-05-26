@@ -63,7 +63,8 @@
         <activity android:name=".W_cutActivity" />
         <activity android:name=".W_colorActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".MyWritingActivity"></activity>
+        <activity android:name=".MyWritingActivity" />
+        <activity android:name=".InfoChangeActivity"></activity>
     </application>
 
 </manifest>

@@ -54,8 +54,6 @@ public class PleaseContentsActivity extends AppCompatActivity {
     private int Index;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +98,6 @@ public class PleaseContentsActivity extends AppCompatActivity {
         });
 
 
-
         commentText.setOnTouchListener(new View.OnTouchListener() { // 댓글 작성 시 스크롤 생성
             public boolean onTouch(View view, MotionEvent event) {
                 if (view.getId() ==R.id.commentText) {
@@ -117,20 +114,13 @@ public class PleaseContentsActivity extends AppCompatActivity {
 
         Index = intent.getIntExtra("Index", 1); // pleaseList의 고유 번호, 이 값을 comment테이블에 넣고 그에 맞는 댓글을 가져옴
 
-     //   TextView test1 = (TextView)findViewById(R.id.test1);
-    //    test1.setText(commentDate+" index :   "+Index);
-
-
-
-        //       commentList.add(new Comment("상담부탁드립니다.", "닉네임", "2019-05-04","asdf"));
-        //       commentList.add(new Comment("상담부탁드립니다.1", "닉네임1", "2019-05-04","dffffffff"));
 
         commentListView = (ListView)findViewById(R.id.commentLIstView);
         commentList = new ArrayList<Comment>(); // 배열에 넣어줌
 
 
 
-        adapter = new CommentListAdapter(getApplicationContext(), commentList);
+        adapter = new CommentListAdapter(getApplicationContext(), commentList, this);
         commentListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭
 
        new PleaseContentsActivity.BackgroundTask().execute(); // 데이터베이스 연동
@@ -275,8 +265,6 @@ public class PleaseContentsActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     count++;
-
-
                 }
 
             }catch (Exception e){

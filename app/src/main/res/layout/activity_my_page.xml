@@ -7,17 +7,37 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="#0DE91E63"
-                android:text="로그아웃" />
+                android:layout_gravity="left"
+                android:background="@color/colorMain"
+                android:text="회원정보 수정"
+                android:id="@+id/infochange"
+
+                />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="#0DE91E63"
+                    android:text="로그아웃"
+                    android:layout_gravity="right"
+                    />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -152,6 +172,7 @@
 
 
         </LinearLayout>
+
 
 
         <LinearLayout

@@ -116,7 +116,7 @@ public class ReviewContentsActivity extends AppCompatActivity {
         reviewcommentList = new ArrayList<ReviewComment>(); // 배열에 넣어줌
 
 
-        adapter = new ReviewCommentListAdapter(getApplicationContext(), reviewcommentList);
+        adapter = new ReviewCommentListAdapter(getApplicationContext(), reviewcommentList, this);
         reviewcommentListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭
 
        new ReviewContentsActivity.BackgroundTask().execute(); // 데이터베이스 연동

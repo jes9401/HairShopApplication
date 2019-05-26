@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBack"   >
+
+    <TextView
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원 정보 수정"
+        android:layout_gravity="center"
+        android:textSize="30dp"
+        android:textColor="#CDE91E63"
+
+        />
+        <TextView
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="#c1c0b0"
+            android:textSize="25dp"
+            android:textColorHint="#FFFFFF"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:id="@+id/idText"
+            android:text=" 아이디"
+            android:drawableLeft="@drawable/ic_person_black_24dp" />
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <EditText
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:background="#c1c0b0"
+            android:textSize="25dp"
+            android:hint=" 비밀번호"
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_lock_black_24dp"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:textColorHint="#FFFFFF"
+            android:id="@+id/confirmText"
+
+            />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:textSize="15dp"
+            android:background="#a76262"
+            android:text="확인"
+            android:layout_gravity="center"
+            android:id="@+id/confirmButton"
+            android:textColor="#ffffff"
+            />
+    </LinearLayout>
+
+
+
+    <EditText
+
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint=" 변경할 비밀번호"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:drawableLeft="@drawable/ic_lock_black_24dp"
+        android:id="@+id/passwordText"
+
+        />
+
+
+    <EditText
+
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint="      이름"
+
+        android:id="@+id/nameText"
+
+        />
+    <EditText
+
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint="      닉네임"
+
+        android:id="@+id/nicknameText"
+
+        />
+    <EditText
+
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint="      전화번호"
+
+        android:id="@+id/phoneText"
+
+        />
+
+
+    <EditText
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#c1c0b0"
+        android:textSize="25dp"
+        android:textColorHint="#FFFFFF"
+        android:hint="      헤어샵"
+        android:text="user"
+
+        android:id="@+id/hairshopText"
+
+        />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:text="수정 완료"
+            android:id="@+id/completeButton"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/colorMain"
+            android:layout_marginTop="50dp"
+
+            />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="취소"
+        android:id="@+id/cancelButton"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/colorMain"
+        android:layout_marginTop="5dp"
+
+        />
+
+
+</LinearLayout>

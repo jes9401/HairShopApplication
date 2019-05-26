@@ -36,7 +36,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     public static String nickname;
     public static String type;
-    public String userID;
+    public static String userID;
     private AlertDialog dialog;
     ImageButton homeButton, mypageButton, mapButton;
 

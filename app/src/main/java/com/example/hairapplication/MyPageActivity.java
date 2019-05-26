@@ -45,6 +45,7 @@ public class MyPageActivity extends AppCompatActivity {
         designerText = (EditText)findViewById(R.id.designerText);
         phoneNumber = (TextView)findViewById(R.id.phoneNumber);
         TextView userNickname = (TextView)findViewById(R.id.userNickname);
+        Button infochangeButton = (Button)findViewById(R.id.infochange);
 
         userNickname.setText(MainActivity.nickname+ "님");
 
@@ -52,6 +53,14 @@ public class MyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MyWritingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        infochangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), InfoChangeActivity.class);
                 startActivity(intent);
             }
         });
