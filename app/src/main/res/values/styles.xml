@@ -13,4 +13,10 @@
         <item name = "windowNoTitle">true</item>
         
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#c9c9c9</item>
+        <item name="colorControlActivated">#ff0256</item>
+    </style>
+
 </resources>

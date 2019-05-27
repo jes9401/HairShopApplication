@@ -1,5 +1,6 @@
 package com.example.hairapplication;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,10 +29,10 @@ import java.net.URLEncoder;
 public class MyPageActivity extends AppCompatActivity {
 
     EditText designerText; // 디자이너의 닉네임을 받아올 EditText
-    private String designerPhone; // 서버에서 받아온 디자이너의 번호를 저장할 변수
+    private String designerHairshopTelnum; // 서버에서 받아온 디자이너의 번호를 저장할 변수
     TextView phoneNumber; // 서버에서 받아온 디자이너의 번호를 표시해줄 TextView
     ProgressDialog progressDialog;
-
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         btnDial.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Uri uri = Uri.parse("tel:"+designerPhone);
+                Uri uri = Uri.parse("tel:"+designerHairshopTelnum);
                 Intent intent = new Intent(Intent.ACTION_DIAL,uri);
                 startActivity(intent);
             }
@@ -97,7 +98,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.putExtra("sms_body", "문의드려요");
-                intent.setData(Uri.parse("smsto:"+Uri.encode(designerPhone)));
+                intent.setData(Uri.parse("smsto:"+Uri.encode(designerHairshopTelnum)));
                 startActivity(intent);        } }); //문자보내기
 
         final Button logout = (Button) findViewById(R.id.logout);
@@ -152,7 +153,7 @@ public class MyPageActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             try{
-                target = "http://kyu9341.cafe24.com/GetDesignerPhone.php?nickname="+URLEncoder.encode(designerText.getText().toString(), "UTF-8"); // GET 방식으로 ID를 서버에 전송
+                target = "http://kyu9341.cafe24.com/GetDesignerHairshopTelnum.php?nickname="+URLEncoder.encode(designerText.getText().toString(), "UTF-8"); // GET 방식으로 ID를 서버에 전송
                 Log.e("nickname = "+designerText.getText().toString(),"nickname try Phone");
             }catch (Exception e){
                 e.printStackTrace();
@@ -191,17 +192,28 @@ public class MyPageActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(String result){ // 해당 결과 처리
             try{
-
                 JSONObject jsonObject = new JSONObject(result); // 응답 부분 처리
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 JSONObject object = jsonArray.getJSONObject(0); // 현재 배열의 원소값
 
-                designerPhone = object.getString("phone");
-                Log.e("designerPhone = "+designerPhone , "designerPhone Back");
+               designerHairshopTelnum = object.getString("hairshopTelnum");
+                Log.e("designerHairshop = "+designerHairshopTelnum , "designerPhone Back");
+                phoneNumber.setText(designerHairshopTelnum);
 
-                phoneNumber.setText(designerPhone);
+
+
+
+
 
             }catch (Exception e){
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MyPageActivity.this);
+                    dialog = builder.setMessage("닉네임을 다시 확인해주세요.")
+                            .setNegativeButton("다시 시도", null)
+                            .create();
+                    dialog.show();
+
+
                 e.printStackTrace();
             }
         }

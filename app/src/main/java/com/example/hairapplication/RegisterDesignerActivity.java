@@ -62,7 +62,9 @@ public class RegisterDesignerActivity extends Activity {
     private String nickname;
     private String phone;
     private String hairshop;
+    private String hairshopTelnum;
     EditText hairshopText;
+    EditText hairshopTelText;
     AlertDialog dialog;
     ProgressDialog progressDialog;
 
@@ -72,7 +74,7 @@ public class RegisterDesignerActivity extends Activity {
         setContentView(R.layout.activity_register_designer);
 
         hairshopText = findViewById(R.id.hairshopText);
-
+        hairshopTelText =findViewById(R.id.hairshopTelText);
         Intent intent = getIntent();
 
         ID = intent.getStringExtra("ID");
@@ -81,6 +83,7 @@ public class RegisterDesignerActivity extends Activity {
         name = intent.getStringExtra("name");
         nickname = intent.getStringExtra("nickname");
         phone = intent.getStringExtra("phone");
+
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .permitDiskReads()
@@ -120,7 +123,7 @@ public class RegisterDesignerActivity extends Activity {
         completeBtn.setOnClickListener(new View.OnClickListener() { // 사용자 가입 시 회원가입 후 로그인페이지로 이동
                     @Override
                     public void onClick(View view) {
-
+                        hairshopTelnum = hairshopTelText.getText().toString();
                         hairshop = hairshopText.getText().toString();
 
                         if(hairshop.equals("")){
@@ -141,7 +144,6 @@ public class RegisterDesignerActivity extends Activity {
                                     JSONObject jsonResponse = new JSONObject(response);
                                     boolean success = jsonResponse.getBoolean("success");
                                     if(success){ // 회원 등록에 성공했을 경우 성공 알림창 출력
-
                                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);
                                         dialog = builder.setMessage("회원 등록에 성공했습니다.")
                                                 .setPositiveButton("확인", null)
@@ -198,10 +200,10 @@ public class RegisterDesignerActivity extends Activity {
                         progressDialog.dismiss();
                         */
 
-                        RegisterRequest registerRequest = new RegisterRequest(ID, password, name, gender, nickname, phone, hairshop, responseListener);
+                        RegisterRequest registerRequest = new RegisterRequest(ID, password, name, gender, nickname, phone, hairshop, hairshopTelnum, responseListener);
                         RequestQueue queue = Volley.newRequestQueue(RegisterDesignerActivity.this);
                         queue.add(registerRequest);
-
+                        Log.e("hairshopTelnum = "+hairshopTelnum, "hairshopTelnum");
 
                     }
                 });

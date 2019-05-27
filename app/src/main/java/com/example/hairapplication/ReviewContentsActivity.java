@@ -1,6 +1,7 @@
 package com.example.hairapplication;
 
 import android.content.Intent;
+import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -48,7 +50,6 @@ public class ReviewContentsActivity extends AppCompatActivity {
     private int Index;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +69,8 @@ public class ReviewContentsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-
+        RatingBar reviewRating = (RatingBar)findViewById(R.id.reviewRating);
         Button completeButton = (Button)findViewById(R.id.completeButton);
-
         TextView writer = (TextView) findViewById(R.id.writer);
         TextView title = (TextView) findViewById(R.id.title);
         TextView date = (TextView) findViewById(R.id.date);
@@ -80,6 +80,9 @@ public class ReviewContentsActivity extends AppCompatActivity {
         writer.setText(intent.getStringExtra("Name"));
         date.setText(intent.getStringExtra("Date"));
         contents.setText(intent.getStringExtra("Contents"));
+        reviewRating.setRating(intent.getFloatExtra("Rate", 1));
+
+
 
         contents.setMovementMethod(new ScrollingMovementMethod());
 
@@ -92,8 +95,6 @@ public class ReviewContentsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
 
         reviewcommentText.setOnTouchListener(new View.OnTouchListener() { // 댓글 작성 시 스크롤 생성
             public boolean onTouch(View view, MotionEvent event) {
@@ -109,12 +110,10 @@ public class ReviewContentsActivity extends AppCompatActivity {
             }
         });
 
-
         Index = intent.getIntExtra("Index", 1); // reviewList의 고유 번호, 이 값을 reviewcomment테이블에 넣고 그에 맞는 댓글을 가져옴
 
         reviewcommentListView = (ListView)findViewById(R.id.ReviewCommentListView);
         reviewcommentList = new ArrayList<ReviewComment>(); // 배열에 넣어줌
-
 
         adapter = new ReviewCommentListAdapter(getApplicationContext(), reviewcommentList, this);
         reviewcommentListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭

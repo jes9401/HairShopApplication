@@ -244,6 +244,7 @@ public class MyWritingActivity extends AppCompatActivity {
                 int count = 0;
                 String  reviewTitle, reviewName, reviewDate, reviewContents; // 변수 선언
                 int reviewNum;
+                float reviewRate;
                 while(count < jsonArray.length())
                 {
                     JSONObject object = jsonArray.getJSONObject(count); // 현재 배열의 원소값
@@ -252,10 +253,10 @@ public class MyWritingActivity extends AppCompatActivity {
                     reviewDate = object.getString("reviewDate");
                     reviewContents = object.getString("reviewContents");
                     reviewNum = object.getInt("reviewNum");
-
+                    reviewRate = object.getInt("reviewRate");
 
                     if(reviewName.equals(MainActivity.nickname)) {
-                        Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents); // 객체 생성 (생성자)
+                        Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents, reviewRate); // 객체 생성 (생성자)
                         reviewList.add(review); // 리스트에 추가
                         adapter1.notifyDataSetChanged();
                     }

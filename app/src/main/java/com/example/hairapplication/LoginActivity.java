@@ -64,28 +64,28 @@ public class LoginActivity extends AppCompatActivity {
                final String ID = idText.getText().toString();
                final String password = passwordText.getText().toString();
 
+                if(idText.getText().toString().equals("") || passwordText.getText().toString().equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    dialog = builder.setMessage("계정을 다시 확인하세요.")
+                            .setNegativeButton("다시 시도", null)
+                            .create();
+                    dialog.show();
+                }else {
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try
-                        {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-                            if(idText.getText().toString().equals("") || passwordText.getText().toString().equals("")){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                dialog = builder.setMessage("계정을 다시 확인하세요.")
-                                        .setNegativeButton("다시 시도", null)
-                                        .create();
-                                dialog.show();
-                            }else {
 
                                 JSONObject jsonResponse = new JSONObject(response); // 해당 결과를 받아옴
                                 boolean success = jsonResponse.getBoolean("success");
-                                int permission = jsonResponse.getInt("permission"); //  사용자의 permission을 받아옴 (디자이너 = 0, 사용자 =1)
                                 //                       Log.e("permission = "+permission, "permission");
 
-                                if(success){
-                                    switch (permission){
+                                if (success) {
+                                    int permission = jsonResponse.getInt("permission"); //  사용자의 permission을 받아옴 (디자이너 = 0, 사용자 =1)
+
+                                    switch (permission) {
                                         case 1:
                                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                             dialog = builder.setMessage("로그인에 성공했습니다.")
@@ -106,8 +106,9 @@ public class LoginActivity extends AppCompatActivity {
                                                     .create();
                                             dialog.show();
                                             break;
+
                                     }
-                                }else{
+                                } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                     dialog = builder.setMessage("계정을 다시 확인하세요.")
                                             .setNegativeButton("다시 시도", null)
@@ -148,20 +149,18 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.show();
                                 }
 */
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
-
                         }
-                        catch (Exception e)
-                        {
-                          e.printStackTrace();
-                        }
-                    }
-                };
-                LoginRequest loginRequest = new LoginRequest(ID, password, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+                    };
 
+                    LoginRequest loginRequest = new LoginRequest(ID, password, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                    queue.add(loginRequest);
+                }
 
 
             }

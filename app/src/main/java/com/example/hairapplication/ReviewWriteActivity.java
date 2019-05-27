@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -28,6 +29,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
     private String reviewName;
     private String reviewDate;
     private String reviewContents;
+    private float reviewRate = 5;
 
 
     //   final TextView writer = (TextView)findViewById(R.id.writer);
@@ -58,6 +60,19 @@ public class ReviewWriteActivity extends AppCompatActivity {
         reviewDate = strCurDate; // 현재 날짜 저장
         writer.setText(MainActivity.nickname);
         dateText.setText(reviewDate);
+
+        final RatingBar reviewRating = (RatingBar)findViewById(R.id.reviewRating);
+
+        reviewRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                reviewRate = reviewRating.getRating();
+
+            }
+        });
+
+
+        Log.e("reviewRate = "+reviewRate, "reviewRate");
 
         contentsText.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent event) {
@@ -143,10 +158,10 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
                     }
                 } ;
-                ReviewRequest reviewRequest = new ReviewRequest(reviewTitle, reviewName, reviewDate, reviewContents, responseListener);
+                ReviewRequest reviewRequest = new ReviewRequest(reviewTitle, reviewName, reviewDate, reviewContents, reviewRate, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(ReviewWriteActivity.this);
                 queue.add(reviewRequest);
-
+                Log.e("reviewRate = "+reviewRate, "reviewRate");
 
                 finish();
                 //               Intent intent = new Intent(getApplicationContext(), ReviewFragment.class);
@@ -154,5 +169,15 @@ public class ReviewWriteActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null)
+        {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }

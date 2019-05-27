@@ -73,8 +73,8 @@ public class InfoChangeActivity extends AppCompatActivity {
                             .create();
                     dialog.show();
                     validate = true;
-                    idText.setEnabled(false);
-                    idText.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                    confirmText.setEnabled(false);
+                    confirmText.setBackgroundColor(getResources().getColor(R.color.colorGray));
                     confirmButton.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(InfoChangeActivity.this);

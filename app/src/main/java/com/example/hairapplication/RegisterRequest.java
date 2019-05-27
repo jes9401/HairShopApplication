@@ -27,7 +27,7 @@ import java.util.Map;
             parameters.put("phone", phone);
 
         }
-        public RegisterRequest(String ID, String password, String name, String gender, String nickname, String phone, String hairshop, Response.Listener<String> listener){
+        public RegisterRequest(String ID, String password, String name, String gender, String nickname, String phone, String hairshop, String hairshopTelnum, Response.Listener<String> listener){
             super(Method.POST, designerURL, listener,null); // 해당 URL에 POST 방식으로 전송
             parameters = new HashMap<>(); // HashMap으로 초기화
             parameters.put("ID", ID);
@@ -37,6 +37,8 @@ import java.util.Map;
             parameters.put("nickname", nickname);
             parameters.put("phone", phone);
             parameters.put("hairshop", hairshop);
+            parameters.put("hairshopTelnum", hairshopTelnum);
+
         }
 
 

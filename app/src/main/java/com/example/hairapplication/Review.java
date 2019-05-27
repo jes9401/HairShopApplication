@@ -6,15 +6,24 @@ public class Review {
     String date; // 작성일자
     String contents; // 내용
     int num;
+    float rate;
 
 
-
-    public Review(int num, String review, String name, String date, String contents) {
+    public Review(int num, String review, String name, String date, String contents, float rate) {
         this.num = num;
         this.review = review;
         this.name = name;
         this.date = date;
         this.contents = contents;
+        this.rate = rate;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 
     public String getReview() {
