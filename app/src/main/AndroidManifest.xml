@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PleaseReviseActivity"></activity>
+        <activity android:name=".ReviewReviseActivity"></activity>
+        <activity android:name=".PleaseReviseActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

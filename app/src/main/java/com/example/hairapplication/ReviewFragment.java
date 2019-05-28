@@ -100,7 +100,7 @@ public class ReviewFragment extends Fragment {
         //     Log.e("nickname = "+nickname , "nickname");
         //    test.setText("나오냐? >>"+MainActivity.nickname+" << ");
 
-        adapter = new ReviewListAdapter(getContext().getApplicationContext(), reviewList);
+        adapter = new ReviewListAdapter(getContext().getApplicationContext(), reviewList, this);
         reviewListView.setAdapter(adapter); //리스트 뷰에 어댑터 매칭
 
         new ReviewFragment.BackgroundTask().execute(); // 데이터베이스 연동

@@ -32,8 +32,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PleaseReviseActivity extends AppCompatActivity {
-
+public class ReviewReviseActivity extends AppCompatActivity {
     TextView writerText;
     EditText titleText;
     TextView dateText;
@@ -41,17 +40,18 @@ public class PleaseReviseActivity extends AppCompatActivity {
     private String writer, title, date, contents;
     private String secret;
     AlertDialog dialog;
-    private int pleaseNum;
+    private int reviewNum;
     private int access;
     private int num;
-    private String pleaseTitle, pleaseContents, reviseDate;
-
+    private String reviewTitle, reviewContents, reviseDate;
+    private float reviewRate;
+    RatingBar reviewRating;
     RadioButton open;
     RadioButton notopen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_please_revise);
+        setContentView(R.layout.activity_review_revise);
 
         writerText = (TextView) findViewById(R.id.writer);
         titleText = (EditText) findViewById(R.id.titleText);
@@ -62,7 +62,8 @@ public class PleaseReviseActivity extends AppCompatActivity {
         notopen = (RadioButton)findViewById(R.id.notopen);
         Button completeButton = (Button)findViewById(R.id.completeButton);
         final CheckBox pictureCheck = (CheckBox)findViewById(R.id.pictureCheck);
-        final FrameLayout pleaseFrameLayout = (FrameLayout)findViewById(R.id.pleaseFrameLayout);
+        final FrameLayout reviewFrameLayout = (FrameLayout)findViewById(R.id.reviewFrameLayout);
+        reviewRating = (RatingBar)findViewById(R.id.reviewRating);
 
         long now = System.currentTimeMillis();  // 현재 시간 받아오기
         Date date1 = new Date(now);
@@ -72,56 +73,51 @@ public class PleaseReviseActivity extends AppCompatActivity {
         dateText.setText(reviseDate);
         reviseDate = reviseDate+" 수정됨";
         Intent intent = getIntent();
-        pleaseNum = intent.getIntExtra("Num", 0);
-        Log.e("pleaseNum = "+pleaseNum, "pleaseNum");
+        reviewNum = intent.getIntExtra("Num", 0);
+        Log.e("reviewNum = "+reviewNum, "reviewNum");
 
-        pleaseFrameLayout.setVisibility(View.GONE);
+        reviewFrameLayout.setVisibility(View.GONE);
 
         pictureCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(pictureCheck.isChecked()){
 
-                    pleaseFrameLayout.setVisibility(View.VISIBLE);
+                    reviewFrameLayout.setVisibility(View.VISIBLE);
                 }else {
-                    pleaseFrameLayout.setVisibility(View.GONE);
+                    reviewFrameLayout.setVisibility(View.GONE);
                 }
             }
         });
 
-         new BackgroundTask().execute();
+        new ReviewReviseActivity.BackgroundTask().execute();
 
-        secretGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() { // 성별 라디오 버튼에 대한 이벤트처리
+        reviewRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton secretButton = (RadioButton)findViewById(i); // 현재 선택된 라디오버튼 받아옴
-                secret = secretButton.getText().toString();
-                if(secret.equals("공개")){
-                    access = 1;
-                }else {
-                    access = 0;
-                }
-                Log.e("access = "+ access, "access");
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                reviewRate = reviewRating.getRating();
+                Log.e("reviewRate revise = "+reviewRate, "revise");
             }
         });
-
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                pleaseTitle = titleText.getText().toString();
-                pleaseContents = contentsText.getText().toString();
 
-                if (pleaseContents.equals("")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PleaseReviseActivity.this);
+
+                reviewTitle = titleText.getText().toString();
+                reviewContents = contentsText.getText().toString();
+
+                if (reviewContents.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReviewReviseActivity.this);
                     dialog = builder.setMessage("내용을 입력해주세요.")
                             .setNegativeButton("확인", null)
                             .create();
                     dialog.show();
                     return;
                 }
-                if (pleaseTitle.equals("")) {
-                    pleaseTitle = "제목 없음";
+                if (reviewTitle.equals("")) {
+                    reviewTitle = "제목 없음";
                 }
 
 
@@ -133,7 +129,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) { // 작성에 성공했을 경우 성공 알림창 출력
-                                AlertDialog.Builder builder = new AlertDialog.Builder(PleaseReviseActivity.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ReviewReviseActivity.this);
                                 dialog = builder.setMessage("수정에 성공했습니다.")
                                         .setPositiveButton("확인", null)
                                         .create();
@@ -141,7 +137,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
 
 
                             } else { // 작성에 실패한 경우 실패 알림창 출력
-                                AlertDialog.Builder builder = new AlertDialog.Builder(PleaseReviseActivity.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ReviewReviseActivity.this);
                                 dialog = builder.setMessage("수정에 실패했습니다.")
                                         .setNegativeButton("확인", null)
                                         .create();
@@ -154,8 +150,8 @@ public class PleaseReviseActivity extends AppCompatActivity {
 
                     }
                 };
-                PleaseRequest reviseRequest = new PleaseRequest(num, pleaseTitle, reviseDate, pleaseContents, access, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(PleaseReviseActivity.this);
+                ReviewRequest reviseRequest = new ReviewRequest(num, reviewTitle, reviseDate, reviewContents, reviewRate, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(ReviewReviseActivity.this);
                 queue.add(reviseRequest);
                 Log.e("access = " + access, "access");
                 finish();
@@ -179,7 +175,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             try{
-                target = "http://kyu9341.cafe24.com/PleaseRevise.php?pleaseNum="+URLEncoder.encode(pleaseNum+""); // GET 방식으로 ID를 서버에 전송
+                target = "http://kyu9341.cafe24.com/ReviewRevise.php?reviewNum="+ URLEncoder.encode(reviewNum+""); // GET 방식으로 ID를 서버에 전송
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -222,12 +218,12 @@ public class PleaseReviseActivity extends AppCompatActivity {
                 JSONObject object = jsonArray.getJSONObject(0); // 현재 배열의 원소값
 
 
-                writer = object.getString("pleaseName");
-                title = object.getString("pleaseTitle");
-                date = object.getString("pleaseDate");
-                contents = object.getString("pleaseContents");
-                access = object.getInt("access");
-                num = object.getInt("pleaseNum");
+                writer = object.getString("reviewName");
+                title = object.getString("reviewTitle");
+                date = object.getString("reviewDate");
+                contents = object.getString("reviewContents");
+                reviewRate = object.getInt("reviewRate");
+                num = object.getInt("reviewNum");
 
                 Log.e("writer = "+writer , "writer");
                 Log.e("title = "+title , "title");
@@ -238,11 +234,8 @@ public class PleaseReviseActivity extends AppCompatActivity {
                 titleText.setText(title);
                 contentsText.setText(contents);
 
-                if(access == 1){
-                    open.setChecked(true);
-                }else{
-                    notopen.setChecked(true);
-                }
+                reviewRating.setRating(reviewRate);
+
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -251,5 +244,4 @@ public class PleaseReviseActivity extends AppCompatActivity {
 
 
     }
-
 }

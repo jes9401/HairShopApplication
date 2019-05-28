@@ -69,7 +69,7 @@ public class MyWritingActivity extends AppCompatActivity {
 
         reviewListView = (ListView)findViewById(R.id.reviewListView);
         reviewList = new ArrayList<Review>(); // 배열에 넣어줌
-        adapter1 = new ReviewListAdapter(getApplicationContext(), reviewList);
+        adapter1 = new ReviewListAdapter(getApplicationContext(), reviewList, this);
         reviewListView.setAdapter(adapter1); //리스트 뷰에 어댑터 매칭
 
         new MyWritingActivity.BackgroundTask_review().execute(); // 데이터베이스 연동
