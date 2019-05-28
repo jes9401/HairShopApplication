@@ -19,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PleaseReviseActivity"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAxMziKD1wvqiMW-NJuKCRcqEoBeofwsv8" />
@@ -64,7 +66,7 @@
         <activity android:name=".W_colorActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".MyWritingActivity" />
-        <activity android:name=".InfoChangeActivity"></activity>
+        <activity android:name=".InfoChangeActivity" />
     </application>
 
 </manifest>

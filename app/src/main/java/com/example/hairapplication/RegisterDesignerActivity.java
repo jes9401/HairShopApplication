@@ -66,7 +66,7 @@ public class RegisterDesignerActivity extends Activity {
     EditText hairshopText;
     EditText hairshopTelText;
     AlertDialog dialog;
-    ProgressDialog progressDialog;
+//    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class RegisterDesignerActivity extends Activity {
                                         //                               finish();
                                         Intent completeIntent = new Intent(getApplicationContext(), LoginActivity.class); // 로그인 화면으로 돌아감
                                         startActivity(completeIntent);
-                                        progressDialog.dismiss();
+ //                                       progressDialog.dismiss();
 
                                     }else{ // 회원 등록에 실패한 경우 실패 알림창 출력
                                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterDesignerActivity.this);

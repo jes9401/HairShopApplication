@@ -64,7 +64,7 @@ public class PleaseListAdapter extends BaseAdapter {
         TextView dateText = (TextView)v.findViewById(R.id.dateText);
 
         TextView deleteButton = (TextView)v.findViewById(R.id.delete);
-        TextView updateButton = (TextView)v.findViewById(R.id.update);
+        TextView reviseButton = (TextView)v.findViewById(R.id.revise);
 
         TextView secretText = (TextView)v.findViewById(R.id.secret);
 
@@ -131,21 +131,12 @@ public class PleaseListAdapter extends BaseAdapter {
                 Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
 
                 }else {
-                    if (activity == null) {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
                         dialog = builder.setMessage("자신이 작성한 글만 삭제할 수 있습니다.")
                                 .setPositiveButton("확인", null)
                                 .create();
                         dialog.show();
 
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        dialog = builder.setMessage("자신이 작성한 글만 삭제할 수 있습니다.")
-                                .setPositiveButton("확인", null)
-                                .create();
-                        dialog.show();
-                    }
                 }
 
             }
@@ -158,7 +149,37 @@ public class PleaseListAdapter extends BaseAdapter {
             secretText.setText("비공개");
         }
 
+        reviseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (MainActivity.nickname.equals(pleaseList.get(i).getName())) {
+
+                Intent intent = new Intent(v.getContext(), PleaseReviseActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("Num", pleaseList.get(i).num);
+                v.getContext().startActivity(intent);
+
+            }else {
+                if (activity == null) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                    dialog = builder.setMessage("자신이 작성한 글만 수정할 수 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create();
+                    dialog.show();
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    dialog = builder.setMessage("자신이 작성한 글만 수정할 수 있습니다.")
+                            .setPositiveButton("확인", null)
+                            .create();
+                    dialog.show();
+                }
+            }
+
+            }
+        });
 
 
         pleaseText.setText(pleaseList.get(i).getPlease());
