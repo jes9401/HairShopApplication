@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     .setPositiveButton("확인", null)
                                                     .create();
                                             dialog.show();
+
                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);  // 메인 액티비티로 넘어감
                                             intent.putExtra("userID", idText.getText().toString());
                                             startActivity(intent);
