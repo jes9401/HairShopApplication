@@ -9,7 +9,7 @@ public class Please {
     String contents; // 내용
     int num; // 고유 번호
     int access; // 비밀글 접근성
-
+    String image; // 이미지 이름
 
     public Please(int num, String please, String name, String date, String contents) {
         this.num = num;
@@ -18,13 +18,15 @@ public class Please {
         this.date = date;
         this.contents = contents;
     }
-    public Please(int num, String please, String name, String date, String contents, int access) {
+    public Please(int num, String please, String name, String date, String contents, String image, int access) {
         this.num = num;
         this.please = please;
         this.name = name;
         this.date = date;
         this.contents = contents;
+        this.image = image;
         this.access = access;
+
     }
 
     public int getAccess() {
@@ -74,5 +76,14 @@ public class Please {
     public void setNum(int num) {
         this.num = num;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 
 }

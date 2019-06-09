@@ -54,6 +54,7 @@ public class WriteActivity extends AppCompatActivity {
     private String pleaseName;
     private String pleaseDate;
     private String pleaseContents;
+    private String pleaseImage;
     private int access;
     private String secret;
     RadioGroup secretGroup;
@@ -66,7 +67,6 @@ public class WriteActivity extends AppCompatActivity {
 
     // 이미지넣는 뷰와 업로드하기위환 버튼
     private Button btn_album;
-    private Button btnUploadImage;
     private ImageView iv_view;
 
     private static Bitmap bPicture = null;
@@ -239,7 +239,7 @@ public class WriteActivity extends AppCompatActivity {
 
 
 
-                PleaseRequest pleaseRequest = new PleaseRequest(pleaseTitle, pleaseName, pleaseDate, pleaseContents, access, responseListener);
+                PleaseRequest pleaseRequest = new PleaseRequest(pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage, access, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(WriteActivity.this);
                 queue.add(pleaseRequest);
                 Log.e("access = "+ access, "access");
@@ -293,6 +293,8 @@ public class WriteActivity extends AppCompatActivity {
                 uploadFilePath = path;
                 uploadFileName = name;
 
+                pleaseImage = uploadFileName;
+
                 LOG.i(TAG,"[onActivityResult] uploadFilePath:" + uploadFilePath + ", uploadFileName:" + uploadFileName);
 
                 Bitmap bit = BitmapFactory.decodeFile(path);
@@ -335,7 +337,7 @@ public class WriteActivity extends AppCompatActivity {
     // ============================== 사진을 서버에 전송하기 위한 스레드 ===========================
 
     private class UploadImageToServer extends AsyncTask<String, String, String> {
-        ProgressDialog mProgressDialog;
+
         String fileName = uploadFilePath;
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -350,12 +352,6 @@ public class WriteActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(WriteActivity.this);
-            mProgressDialog.setTitle("Loading...");
-            mProgressDialog.setMessage("Image uploading...");
-            mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.show();
         }
 
         @Override
@@ -453,7 +449,6 @@ public class WriteActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            mProgressDialog.dismiss();
         }
     }
     // =============================================================================================

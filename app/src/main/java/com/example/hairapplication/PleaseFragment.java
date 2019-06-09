@@ -145,6 +145,7 @@ public class PleaseFragment extends Fragment {
                     intent.putExtra("Name", pleaseList.get(i).name);
                     intent.putExtra("Date", pleaseList.get(i).date);
                     intent.putExtra("Contents", pleaseList.get(i).contents);
+                    intent.putExtra("Image", pleaseList.get(i).image);
                     intent.putExtra("Index", pleaseList.get(i).num);
 
                     startActivity(intent);
@@ -155,6 +156,7 @@ public class PleaseFragment extends Fragment {
                     intent.putExtra("Name", pleaseList.get(i).name);
                     intent.putExtra("Date", pleaseList.get(i).date);
                     intent.putExtra("Contents", pleaseList.get(i).contents);
+                    intent.putExtra("Image", pleaseList.get(i).image);
                     intent.putExtra("Index", pleaseList.get(i).num);
 
                     startActivity(intent);
@@ -218,7 +220,7 @@ public class PleaseFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(result); // 응답 부분 처리
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String  pleaseTitle, pleaseName, pleaseDate, pleaseContents; // 변수 선언
+                String  pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage; // 변수 선언
                 int pleaseNum, pleaseAccess;
                 while(count < jsonArray.length())
                 {
@@ -228,13 +230,15 @@ public class PleaseFragment extends Fragment {
                     pleaseDate = object.getString("pleaseDate");
                     pleaseContents = object.getString("pleaseContents");
                     pleaseNum = object.getInt("pleaseNum");
+                    pleaseImage = object.getString("pleaseImage");
                     pleaseAccess = object.getInt("access");
 
-                    Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseAccess); // 객체 생성 (생성자)
+                    Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage, pleaseAccess); // 객체 생성 (생성자)
                     pleaseList.add(please); // 리스트에 추가
                     adapter.notifyDataSetChanged();
 
 
+                    Log.e("image = "+pleaseImage, "Image");
                     count++;
 
                 }
