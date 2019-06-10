@@ -1,6 +1,8 @@
 package com.example.hairapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,10 +14,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,8 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -49,6 +55,19 @@ public class ReviewContentsActivity extends AppCompatActivity {
     private List<ReviewComment> reviewcommentList;
     private int Index;
 
+    private ImageView iv_view;
+    // LOG
+    private Log_Class LOG = new Log_Class();
+    private String TAG = this.getClass().getSimpleName()+"_LOG";
+
+    private static Bitmap bPicture = null;
+
+
+    // URL
+    private String ServerIP = "http://kyu9341.cafe24.com/image_up_down/";
+    private String ImageToServerURL = "ImageUploadToServer.php";
+
+    private String sPictureUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +83,7 @@ public class ReviewContentsActivity extends AppCompatActivity {
 
         final ScrollView sv1;
         sv1 = (ScrollView)findViewById(R.id.sv1);
-
+        iv_view = (ImageView)findViewById(R.id.iv_view);
         final EditText reviewcommentText= (EditText)findViewById(R.id.reviewcommentText);
 
         Intent intent = getIntent();
@@ -81,7 +100,7 @@ public class ReviewContentsActivity extends AppCompatActivity {
         date.setText(intent.getStringExtra("Date"));
         contents.setText(intent.getStringExtra("Contents"));
         reviewRating.setRating(intent.getFloatExtra("Rate", 1));
-
+        sPictureUrl = intent.getStringExtra("Image");
 
 
         contents.setMovementMethod(new ScrollingMovementMethod());
@@ -120,6 +139,9 @@ public class ReviewContentsActivity extends AppCompatActivity {
 
        new ReviewContentsActivity.BackgroundTask().execute(); // 데이터베이스 연동
 
+
+        ReviewContentsActivity.GetImageFromServer GetImageFromServer_th = new ReviewContentsActivity.GetImageFromServer();
+        GetImageFromServer_th.execute();
 
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +194,10 @@ public class ReviewContentsActivity extends AppCompatActivity {
                 queue.add(reviewcommentRequest);
             }
         });
+
+        if(sPictureUrl.equals("noimage")){
+            iv_view.setVisibility(View.GONE);
+        }
 
 
     }
@@ -252,5 +278,70 @@ public class ReviewContentsActivity extends AppCompatActivity {
         }
 
     }
+
+    // =============================================================================================
+    // =========================== 서버로부터 이미지 받아오는 스레드 ===============================
+    private class GetImageFromServer extends AsyncTask<String, String, String> {
+        URL Url;
+
+        @Override
+        protected void onPreExecute() {
+            LOG.i(TAG,"::::: [GetImageFromServer Start] :::::");
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                if (!sPictureUrl.equals("")) {
+                    Url = new URL(ServerIP+sPictureUrl);
+                    HttpURLConnection conn;
+                    conn = (HttpURLConnection) Url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+
+                    Bitmap PictureDefault = BitmapFactory.decodeStream(is);
+                    bPicture = PictureDefault != null ? PictureDefault : BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    conn.disconnect();
+                    is.close();
+                    return "True";
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist UnsupportedEncodingException");
+                e.printStackTrace();
+                return "UnsupportedEncodingException";
+            } catch (IOException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist IOException");
+                e.printStackTrace();
+                return "IOException";
+            }
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("True")){
+                iv_view.setImageBitmap(bPicture);
+      //          Toast.makeText(ReviewContentsActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
+            }
+            else if(s.equals("UnsupportedEncodingException")){
+
+            }
+            else if(s.equals("IOException")){
+                //      Toast.makeText(PleaseContentsActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(ReviewContentsActivity.this, "실패", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    // =============================================================================================
+
 
 }

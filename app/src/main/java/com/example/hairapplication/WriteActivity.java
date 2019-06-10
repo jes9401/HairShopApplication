@@ -54,7 +54,7 @@ public class WriteActivity extends AppCompatActivity {
     private String pleaseName;
     private String pleaseDate;
     private String pleaseContents;
-    private String pleaseImage;
+    private String pleaseImage = "noimage";
     private int access;
     private String secret;
     RadioGroup secretGroup;
@@ -237,7 +237,9 @@ public class WriteActivity extends AppCompatActivity {
                     }
                 } ;
 
-
+                if(pictureCheck.isChecked()  == false){
+                    pleaseImage = "noimage";
+                }
 
                 PleaseRequest pleaseRequest = new PleaseRequest(pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage, access, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(WriteActivity.this);
@@ -245,11 +247,11 @@ public class WriteActivity extends AppCompatActivity {
                 Log.e("access = "+ access, "access");
                 finish();
 
-                if (uploadFilePath != null) {
+                if (pleaseImage != "noimage") {
                     UploadImageToServer uploadimagetoserver = new UploadImageToServer();
                     uploadimagetoserver.execute(ServerIP+ImageToServerURL);
                 } else {
-                    Toast.makeText(WriteActivity.this, "You didn't insert any image", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(WriteActivity.this, "You didn't insert any image", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -416,7 +418,7 @@ public class WriteActivity extends AppCompatActivity {
                     if (serverResponseCode == 200) {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(WriteActivity.this, "File Upload Completed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WriteActivity.this, "작성 완료", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

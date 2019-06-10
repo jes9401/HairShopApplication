@@ -5,16 +5,18 @@ public class Review {
     String name;  // 작성자
     String date; // 작성일자
     String contents; // 내용
+    String image; // 이미지 이름
     int num;
     float rate;
 
 
-    public Review(int num, String review, String name, String date, String contents, float rate) {
+    public Review(int num, String review, String name, String date, String contents, String image, float rate) {
         this.num = num;
         this.review = review;
         this.name = name;
         this.date = date;
         this.contents = contents;
+        this.image = image;
         this.rate = rate;
     }
 
@@ -66,4 +68,11 @@ public class Review {
         this.num = num;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

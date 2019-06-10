@@ -128,6 +128,7 @@ public class ReviewFragment extends Fragment {
                 intent.putExtra("Date", reviewList.get(i).date);
                 intent.putExtra("Contents", reviewList.get(i).contents);
                 intent.putExtra("Index", reviewList.get(i).num);
+                intent.putExtra("Image", reviewList.get(i).image);
                 intent.putExtra("Rate", reviewList.get(i).getRate());
                 startActivity(intent);
             }
@@ -180,7 +181,7 @@ public class ReviewFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(result); // 응답 부분 처리
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String  reviewTitle, reviewName, reviewDate, reviewContents; // 변수 선언
+                String  reviewTitle, reviewName, reviewDate, reviewContents, reviewImage; // 변수 선언
                 float reviewRate;
                 int reviewNum;
                 while(count < jsonArray.length())
@@ -192,8 +193,9 @@ public class ReviewFragment extends Fragment {
                     reviewContents = object.getString("reviewContents");
                     reviewNum = object.getInt("reviewNum");
                     reviewRate = object.getInt("reviewRate");
+                    reviewImage = object.getString("reviewImage");
 
-                    Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents, reviewRate); // 객체 생성 (생성자)
+                    Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents, reviewImage, reviewRate); // 객체 생성 (생성자)
                     reviewList.add(review); // 리스트에 추가
                     adapter.notifyDataSetChanged();
 

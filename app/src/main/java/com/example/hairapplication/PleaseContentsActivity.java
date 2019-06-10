@@ -210,6 +210,11 @@ public class PleaseContentsActivity extends AppCompatActivity {
             }
         });
 
+        if(sPictureUrl.equals("noimage")){
+            iv_view.setVisibility(View.GONE);
+        }
+
+
 
     }
 
@@ -358,7 +363,7 @@ public class PleaseContentsActivity extends AppCompatActivity {
 
             }
             else if(s.equals("IOException")){
-                Toast.makeText(PleaseContentsActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
+          //      Toast.makeText(PleaseContentsActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(PleaseContentsActivity.this, "실패", Toast.LENGTH_SHORT).show();

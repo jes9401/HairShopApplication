@@ -11,12 +11,13 @@ public class Please {
     int access; // 비밀글 접근성
     String image; // 이미지 이름
 
-    public Please(int num, String please, String name, String date, String contents) {
+    public Please(int num, String please, String name, String date, String contents, String image) {
         this.num = num;
         this.please = please;
         this.name = name;
         this.date = date;
         this.contents = contents;
+        this.image = image;
     }
     public Please(int num, String please, String name, String date, String contents, String image, int access) {
         this.num = num;

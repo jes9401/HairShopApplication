@@ -177,14 +177,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_gravity="center">
-                    <Button
-                        android:layout_margin="5dp"
-                        android:textSize="16dp"
-                        android:background="@color/colorMain"
-                        android:id="@+id/btn_capture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="사진 촬영"/>
+
                     <Button
                         android:textSize="16dp"
                         android:layout_margin="5dp"
