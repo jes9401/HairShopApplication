@@ -357,7 +357,7 @@ public class PleaseContentsActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             if(s.equals("True")){
                 iv_view.setImageBitmap(bPicture);
-                Toast.makeText(PleaseContentsActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
+       //         Toast.makeText(PleaseContentsActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
             }
             else if(s.equals("UnsupportedEncodingException")){
 

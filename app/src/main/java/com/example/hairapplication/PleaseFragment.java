@@ -123,18 +123,10 @@ public class PleaseFragment extends Fragment {
         pleaseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
- //               pleaseListView.getItemAtPosition(i);
-
-/*
-                switch (pleaseList.get(i).getAccess()){
-                    case 1:
 
 
 
-                }
-                */
                 Log.e("type = "+MainActivity.type, "type");
-
 
                 if(pleaseList.get(i).getAccess() == 1 || MainActivity.nickname.equals(pleaseList.get(i).getName()) ) {
 

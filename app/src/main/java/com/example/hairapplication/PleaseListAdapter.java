@@ -119,12 +119,7 @@ public class PleaseListAdapter extends BaseAdapter {
 
                     }
                 } ;
-                /*
-                PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
-                RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
-                queue.add(pleasedeleteRequest);
-                Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
-*/
+
                 PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
                 RequestQueue queue1 = Volley.newRequestQueue(context);
                 queue1.add(pleasedeleteRequest);
@@ -139,6 +134,13 @@ public class PleaseListAdapter extends BaseAdapter {
 
                 }
 
+
+                /*
+                PleaseDeleteRequest pleasedeleteRequest = new PleaseDeleteRequest(pleaseList.get(i).getPlease(), pleaseList.get(i).getName() , responseListener);
+                RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                queue.add(pleasedeleteRequest);
+                Log.e("pleaseName = "+pleaseList.get(i).getName(), "pleasePlease = "+ pleaseList.get(i).getPlease());
+*/
             }
 
         });
