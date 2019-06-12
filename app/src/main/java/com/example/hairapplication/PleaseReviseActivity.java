@@ -553,7 +553,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
                     if (serverResponseCode == 200) {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(PleaseReviseActivity.this, "File Upload Completed", Toast.LENGTH_SHORT).show();
+         //                       Toast.makeText(PleaseReviseActivity.this, "File Upload Completed", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -673,7 +673,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
                     if (serverResponseCode == 200) {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(PleaseReviseActivity.this, "작성 완료", Toast.LENGTH_SHORT).show();
+             //                   Toast.makeText(PleaseReviseActivity.this, "작성 완료", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

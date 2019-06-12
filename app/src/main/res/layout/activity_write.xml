@@ -202,14 +202,19 @@
         android:id="@+id/iv_view"
         android:layout_gravity="center"
         android:layout_width="300dp"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:src="@drawable/pic"
+
+        />
 
         <ImageView
             android:layout_margin="5dp"
             android:id="@+id/iv_view1"
             android:layout_gravity="center"
             android:layout_width="300dp"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:src="@drawable/pic"
+            />
     </LinearLayout>
 
     </FrameLayout>

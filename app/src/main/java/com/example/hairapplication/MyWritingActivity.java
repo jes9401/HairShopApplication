@@ -60,6 +60,7 @@ public class MyWritingActivity extends AppCompatActivity {
                 intent.putExtra("Contents", pleaseList.get(i).contents);
                 intent.putExtra("Index", pleaseList.get(i).num);
                 intent.putExtra("Image", pleaseList.get(i).image);
+                intent.putExtra("Image2", pleaseList.get(i).image2);
                 startActivity(intent);
 
 
@@ -89,6 +90,7 @@ public class MyWritingActivity extends AppCompatActivity {
                 intent.putExtra("Index", reviewList.get(i).num);
                 intent.putExtra("Rate", reviewList.get(i).rate);
                 intent.putExtra("Image", reviewList.get(i).image);
+                intent.putExtra("Image2", reviewList.get(i).image2);
                 startActivity(intent);
             }
         });
@@ -245,7 +247,7 @@ public class MyWritingActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(result); // 응답 부분 처리
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String  reviewTitle, reviewName, reviewDate, reviewContents, reviewImage ; // 변수 선언
+                String  reviewTitle, reviewName, reviewDate, reviewContents, reviewImage, reviewImage2; // 변수 선언
                 int reviewNum;
                 float reviewRate;
                 while(count < jsonArray.length())
@@ -258,9 +260,9 @@ public class MyWritingActivity extends AppCompatActivity {
                     reviewNum = object.getInt("reviewNum");
                     reviewRate = object.getInt("reviewRate");
                     reviewImage = object.getString("reviewImage");
-
+                    reviewImage2 = object.getString("reviewImage2");
                     if(reviewName.equals(MainActivity.nickname)) {
-                        Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents, reviewImage, reviewRate); // 객체 생성 (생성자)
+                        Review review = new Review(reviewNum, reviewTitle, reviewName, reviewDate, reviewContents, reviewImage, reviewImage2, reviewRate); // 객체 생성 (생성자)
                         reviewList.add(review); // 리스트에 추가
                         adapter1.notifyDataSetChanged();
                     }
