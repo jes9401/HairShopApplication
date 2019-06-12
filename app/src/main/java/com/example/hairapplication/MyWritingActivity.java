@@ -172,7 +172,7 @@ public class MyWritingActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(result); // 응답 부분 처리
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String  pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage; // 변수 선언
+                String  pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage, pleaseImage2; // 변수 선언
                 int pleaseNum;
                 while(count < jsonArray.length())
                 {
@@ -183,9 +183,10 @@ public class MyWritingActivity extends AppCompatActivity {
                     pleaseContents = object.getString("pleaseContents");
                     pleaseNum = object.getInt("pleaseNum");
                     pleaseImage = object.getString("pleaseImage");
+                    pleaseImage2 = object.getString("pleaseImage2");
                     if(pleaseName.equals(MainActivity.nickname)) { // 현재 로그인한 사용자의 닉네임과 작성자의 닉네임이 같은 경우일때
 
-                        Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage); // 객체 생성 (생성자)
+                        Please please = new Please(pleaseNum, pleaseTitle, pleaseName, pleaseDate, pleaseContents, pleaseImage, pleaseImage2); // 객체 생성 (생성자)
                         pleaseList.add(please); // 리스트에 추가
                         adapter.notifyDataSetChanged();
                     }

@@ -160,6 +160,7 @@ public class PleaseListAdapter extends BaseAdapter {
                 Intent intent = new Intent(v.getContext(), PleaseReviseActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("Num", pleaseList.get(i).num);
+
                 v.getContext().startActivity(intent);
 
             }else {

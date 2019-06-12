@@ -10,22 +10,27 @@ public class Please {
     int num; // 고유 번호
     int access; // 비밀글 접근성
     String image; // 이미지 이름
+    String image2; // 이미지 이름
 
-    public Please(int num, String please, String name, String date, String contents, String image) {
+    public Please(int num, String please, String name, String date, String contents, String image, String image2) {
         this.num = num;
         this.please = please;
         this.name = name;
         this.date = date;
         this.contents = contents;
         this.image = image;
+        this.image2 = image2;
     }
-    public Please(int num, String please, String name, String date, String contents, String image, int access) {
+
+
+    public Please(int num, String please, String name, String date, String contents, String image, String image2, int access) {
         this.num = num;
         this.please = please;
         this.name = name;
         this.date = date;
         this.contents = contents;
         this.image = image;
+        this.image2 = image2;
         this.access = access;
 
     }
@@ -87,4 +92,11 @@ public class Please {
     }
 
 
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
 }

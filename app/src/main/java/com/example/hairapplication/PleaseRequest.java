@@ -11,7 +11,7 @@ public class PleaseRequest extends StringRequest {
     final static private String pleasereviseURL = "http://kyu9341.cafe24.com/PleaseReviseWrite.php";
     private Map<String, String> parameters;
 
-    public PleaseRequest(String pleaseTitle, String pleaseName, String pleaseDate, String pleaseContents, String pleaseImage, int access, Response.Listener<String> listener){
+    public PleaseRequest(String pleaseTitle, String pleaseName, String pleaseDate, String pleaseContents, String pleaseImage, String pleaseImage2, int access, Response.Listener<String> listener){
         super(Method.POST, URL, listener,null); // 해당 URL에 POST 방식으로 전송
         parameters = new HashMap<>(); // HashMap으로 초기화
         parameters.put("pleaseTitle", pleaseTitle);
@@ -19,10 +19,11 @@ public class PleaseRequest extends StringRequest {
         parameters.put("pleaseDate", pleaseDate);
         parameters.put("pleaseContents", pleaseContents);
         parameters.put("pleaseImage", pleaseImage);
+        parameters.put("pleaseImage2", pleaseImage2);
         parameters.put("access", access+"");
     }
 
-    public PleaseRequest(int pleaseNum, String pleaseTitle, String pleaseDate, String pleaseContents, String pleaseImage, int access, Response.Listener<String> listener){
+    public PleaseRequest(int pleaseNum, String pleaseTitle, String pleaseDate, String pleaseContents, String pleaseImage, String pleaseImage2, int access, Response.Listener<String> listener){
         super(Method.POST, pleasereviseURL, listener,null); // 해당 URL에 POST 방식으로 전송
         parameters = new HashMap<>(); // HashMap으로 초기화
         parameters.put("pleaseNum", pleaseNum+"");
@@ -30,6 +31,7 @@ public class PleaseRequest extends StringRequest {
         parameters.put("pleaseDate", pleaseDate);
         parameters.put("pleaseContents", pleaseContents);
         parameters.put("pleaseImage", pleaseImage);
+        parameters.put("pleaseImage2", pleaseImage2);
         parameters.put("access", access+"");
     }
 

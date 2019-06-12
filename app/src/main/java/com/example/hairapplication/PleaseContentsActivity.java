@@ -60,6 +60,7 @@ public class PleaseContentsActivity extends AppCompatActivity {
     private int Index;
 
     private ImageView iv_view;
+    private ImageView iv_view2;
     // LOG
     private Log_Class LOG = new Log_Class();
     private String TAG = this.getClass().getSimpleName()+"_LOG";
@@ -72,7 +73,7 @@ public class PleaseContentsActivity extends AppCompatActivity {
     private String ImageToServerURL = "ImageUploadToServer.php";
 
     private String sPictureUrl;
-
+    private String sPictureUrl2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class PleaseContentsActivity extends AppCompatActivity {
         final ScrollView sv1;
         sv1 = (ScrollView)findViewById(R.id.sv1);
         iv_view = (ImageView)findViewById(R.id.iv_view);
+        iv_view2 = (ImageView)findViewById(R.id.iv_view2);
 
         long now = System.currentTimeMillis();  // 현재 시간 받아오기
         Date date1 = new Date(now);
@@ -102,7 +104,9 @@ public class PleaseContentsActivity extends AppCompatActivity {
         TextView contents = (TextView)findViewById(R.id.contents);
 
         sPictureUrl = intent.getStringExtra("Image");
+        sPictureUrl2 = intent.getStringExtra("Image2");
         Log.e("image = "+sPictureUrl, "Image");
+        Log.e("image2 = "+sPictureUrl2, "Image2");
         title.setText(" " + intent.getStringExtra("Title"));
         writer.setText(intent.getStringExtra("Name"));
         date.setText(intent.getStringExtra("Date"));
@@ -138,6 +142,9 @@ public class PleaseContentsActivity extends AppCompatActivity {
 
                 GetImageFromServer GetImageFromServer_th = new GetImageFromServer();
                 GetImageFromServer_th.execute();
+
+                GetImageFromServer2 GetImageFromServer_th2 = new GetImageFromServer2();
+                GetImageFromServer_th2.execute();
 
 
         Index = intent.getIntExtra("Index", 1); // pleaseList의 고유 번호, 이 값을 comment테이블에 넣고 그에 맞는 댓글을 가져옴
@@ -212,6 +219,8 @@ public class PleaseContentsActivity extends AppCompatActivity {
 
         if(sPictureUrl.equals("noimage")){
             iv_view.setVisibility(View.GONE);
+        } if(sPictureUrl2.equals("noimage")){
+            iv_view2.setVisibility(View.GONE);
         }
 
 
@@ -372,6 +381,70 @@ public class PleaseContentsActivity extends AppCompatActivity {
     }
     // =============================================================================================
 
+
+    // =============================================================================================
+    // =========================== 서버로부터 이미지 받아오는 스레드2 ===============================
+    private class GetImageFromServer2 extends AsyncTask<String, String, String> {
+        URL Url;
+
+        @Override
+        protected void onPreExecute() {
+            LOG.i(TAG,"::::: [GetImageFromServer Start] :::::");
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                if (!sPictureUrl2.equals("")) {
+                    Url = new URL(ServerIP+sPictureUrl2);
+                    HttpURLConnection conn;
+                    conn = (HttpURLConnection) Url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+
+                    Bitmap PictureDefault = BitmapFactory.decodeStream(is);
+                    bPicture = PictureDefault != null ? PictureDefault : BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    conn.disconnect();
+                    is.close();
+                    return "True";
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist UnsupportedEncodingException");
+                e.printStackTrace();
+                return "UnsupportedEncodingException";
+            } catch (IOException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist IOException");
+                e.printStackTrace();
+                return "IOException";
+            }
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("True")){
+                iv_view2.setImageBitmap(bPicture);
+                //         Toast.makeText(PleaseContentsActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
+            }
+            else if(s.equals("UnsupportedEncodingException")){
+
+            }
+            else if(s.equals("IOException")){
+                //      Toast.makeText(PleaseContentsActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(PleaseContentsActivity.this, "실패", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    // =============================================================================================
 
 
 }

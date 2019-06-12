@@ -177,7 +177,6 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center">
 
-
                     <Button
                         android:textSize="16dp"
                         android:layout_margin="5dp"
@@ -185,7 +184,15 @@
                         android:id="@+id/btn_album"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="앨범"/>
+                        android:text="사진1"/>
+                    <Button
+                        android:textSize="16dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorMain"
+                        android:id="@+id/btn_album1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="사진2"/>
 
                 </LinearLayout>
 
@@ -193,7 +200,18 @@
                     android:id="@+id/iv_view"
                     android:layout_gravity="center"
                     android:layout_width="300dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:layout_margin="5dp"
+                    />
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:id="@+id/iv_view1"
+                    android:layout_gravity="center"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    />
+
             </LinearLayout>
 
         </FrameLayout>

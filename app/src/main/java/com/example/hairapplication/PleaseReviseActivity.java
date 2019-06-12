@@ -56,15 +56,17 @@ public class PleaseReviseActivity extends AppCompatActivity {
     EditText titleText;
     TextView dateText;
     EditText contentsText;
-    private String writer, title, date, contents, image;
+    private String writer, title, date, contents, image, image2;
     private String secret;
     AlertDialog dialog;
     private int pleaseNum;
     private int access;
     private int num;
-    private String pleaseTitle, pleaseContents, reviseDate, pleaseImage = "noimage";
-
+    private String pleaseTitle, pleaseContents, reviseDate, pleaseImage= "noimage";
+    private String pleaseImage2="noimage";
     private ImageView iv_view;
+    private Button btn_album1;
+    private ImageView iv_view1;
     // LOG
     private Log_Class LOG = new Log_Class();
     private String TAG = this.getClass().getSimpleName()+"_LOG";
@@ -77,10 +79,12 @@ public class PleaseReviseActivity extends AppCompatActivity {
     private String ImageToServerURL = "ImageUploadToServer.php";
 
     private String sPictureUrl;
+    private String sPictureUrl2;
     // 이미지넣는 뷰와 업로드하기위환 버튼
     private Button btn_album;
 
-
+    public String uploadFilePath1;
+    public String uploadFileName1;
 
     // 서버로 업로드할 파일관련 변수
     public String uploadFilePath;
@@ -108,7 +112,8 @@ public class PleaseReviseActivity extends AppCompatActivity {
         pictureCheck = (CheckBox)findViewById(R.id.pictureCheck);
         pleaseFrameLayout = (FrameLayout)findViewById(R.id.pleaseFrameLayout);
 
-
+        btn_album1 = (Button)findViewById(R.id.btn_album1);
+        iv_view1 = (ImageView)findViewById(R.id.iv_view1);
         // 퍼미션 적용
         tedPermission();
         btn_album = (Button)findViewById(R.id.btn_album);
@@ -122,10 +127,20 @@ public class PleaseReviseActivity extends AppCompatActivity {
                 i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); // images on the SD card.
 
                 // 결과를 리턴하는 Activity 호출
-                startActivityForResult(i, REQ_CODE_PICK_PICTURE);
+                startActivityForResult(i, 1);
             }
         });
+        btn_album1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK);
+                i.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); // images on the SD card.
 
+                // 결과를 리턴하는 Activity 호출
+                startActivityForResult(i, 2);
+            }
+        });
         long now = System.currentTimeMillis();  // 현재 시간 받아오기
         Date date1 = new Date(now);
         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -136,7 +151,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         pleaseNum = intent.getIntExtra("Num", 0);
         Log.e("pleaseNum = "+pleaseNum, "pleaseNum");
-
+        pictureCheck.setChecked(false);
 
         pleaseFrameLayout.setVisibility(View.GONE);
 
@@ -202,7 +217,6 @@ public class PleaseReviseActivity extends AppCompatActivity {
                                         .create();
                                 dialog.show();
 
-
                             } else { // 작성에 실패한 경우 실패 알림창 출력
                                 AlertDialog.Builder builder = new AlertDialog.Builder(PleaseReviseActivity.this);
                                 dialog = builder.setMessage("수정에 실패했습니다.")
@@ -218,11 +232,17 @@ public class PleaseReviseActivity extends AppCompatActivity {
                     }
                 };
 
+    //            pleaseImage = image;
+     //           pleaseImage2 = image2;
+                Log.e("image = "+ image, "pleaseImage" + pleaseImage);
+                Log.e("image2 = "+ image2, "pleaseImage2" + pleaseImage2);
                 if(pictureCheck.isChecked()  == false){
                     pleaseImage = "noimage";
+                    pleaseImage2 = "noimage";
                 }
 
-                PleaseRequest reviseRequest = new PleaseRequest(num, pleaseTitle, reviseDate, pleaseContents, pleaseImage, access, responseListener);
+
+                PleaseRequest reviseRequest = new PleaseRequest(num, pleaseTitle, reviseDate, pleaseContents, pleaseImage, pleaseImage2, access, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(PleaseReviseActivity.this);
                 queue.add(reviseRequest);
                 Log.e("access = " + access, "access");
@@ -230,6 +250,14 @@ public class PleaseReviseActivity extends AppCompatActivity {
                 if (pleaseImage != "noimage") {
                     PleaseReviseActivity.UploadImageToServer uploadimagetoserver = new PleaseReviseActivity.UploadImageToServer();
                     uploadimagetoserver.execute(ServerIP+ImageToServerURL);
+                } else {
+//                    Toast.makeText(WriteActivity.this, "You didn't insert any image", Toast.LENGTH_SHORT).show();
+                }
+
+
+                if (pleaseImage2 != "noimage") {
+                    PleaseReviseActivity.UploadImageToServer1 uploadimagetoserver1 = new PleaseReviseActivity.UploadImageToServer1();
+                    uploadimagetoserver1.execute(ServerIP+ImageToServerURL);
                 } else {
 //                    Toast.makeText(WriteActivity.this, "You didn't insert any image", Toast.LENGTH_SHORT).show();
                 }
@@ -242,8 +270,6 @@ public class PleaseReviseActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 
@@ -305,33 +331,42 @@ public class PleaseReviseActivity extends AppCompatActivity {
                 access = object.getInt("access");
                 num = object.getInt("pleaseNum");
                 image = object.getString("pleaseImage");
+                image2 = object.getString("pleaseImage2");
+
                 Log.e("writer = "+writer , "writer");
                 Log.e("title = "+title , "title");
                 Log.e("date = "+date , "date");
                 Log.e("contents = "+contents , "contents");
                 Log.e("image = "+image , "image");
+                Log.e("image2 = "+image2 , "image2");
                 writerText.setText(writer);
                 titleText.setText(title);
                 contentsText.setText(contents);
+
+/*
                 sPictureUrl = image;
+                sPictureUrl2 = image2;
 
 
                 PleaseReviseActivity.GetImageFromServer GetImageFromServer_th = new PleaseReviseActivity.GetImageFromServer();
                 GetImageFromServer_th.execute(); // 서버로부터 이미지를 가져옴
-
+                PleaseReviseActivity.GetImageFromServer2 GetImageFromServer_th2 = new PleaseReviseActivity.GetImageFromServer2();
+                GetImageFromServer_th2.execute(); // 서버로부터 이미지를 가져옴
+*/
                 if(access == 1){
                     open.setChecked(true);
                 }else{
                     notopen.setChecked(true);
                 }
 
-                if(image.equals("noimage")){
+                /*
+                if(image.equals("noimage") && image2.equals("noimage")){
                     pictureCheck.setChecked(false);
                 }else{
                     pictureCheck.setChecked(true);
                     pleaseFrameLayout.setVisibility(View.VISIBLE);
                 }
-
+*/
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -363,7 +398,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
     // ==================================== 사진을 불러오는 소스코드 ===============================
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_CODE_PICK_PICTURE) {
+        if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri uri = data.getData();
                 String path = getPath(uri);
@@ -374,13 +409,36 @@ public class PleaseReviseActivity extends AppCompatActivity {
 
                 pleaseImage = uploadFileName;
 
-                LOG.i(TAG,"[onActivityResult] uploadFilePath:" + uploadFilePath + ", uploadFileName:" + uploadFileName);
+                LOG.i(TAG, "[onActivityResult] uploadFilePath:" + uploadFilePath + ", uploadFileName:" + uploadFileName);
 
                 Bitmap bit = BitmapFactory.decodeFile(path);
                 iv_view.setImageBitmap(bit);
+
+            }
+
+        }
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                Uri uri = data.getData();
+                String path = getPath(uri);
+                String name = getName(uri);
+
+                uploadFilePath1 = path;
+                uploadFileName1 = name;
+
+                pleaseImage2 = uploadFileName1;
+
+                LOG.i(TAG, "[onActivityResult] uploadFilePath:" + uploadFilePath + ", uploadFileName:" + uploadFileName);
+
+                Bitmap bit = BitmapFactory.decodeFile(path);
+                iv_view1.setImageBitmap(bit);
             }
         }
     }
+
+
+
 
     // 실제 경로 찾기
     private String getPath(Uri uri) {
@@ -532,6 +590,126 @@ public class PleaseReviseActivity extends AppCompatActivity {
     }
     // =============================================================================================
 
+    // =============================================================================================
+    // ============================== 사진을 서버에 전송하기 위한 스레드1 ===========================
+
+    private class UploadImageToServer1 extends AsyncTask<String, String, String> {
+
+        String fileName = uploadFilePath1;
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 10240 * 10240;
+        File sourceFile = new File(uploadFilePath1);
+
+        @Override
+        protected void onPreExecute() {
+            // Create a progressdialog
+        }
+
+        @Override
+        protected String doInBackground(String... serverUrl) {
+            if (!sourceFile.isFile()) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        LOG.i(TAG,"");
+                    }
+                });
+                return null;
+            } else {
+                try {
+                    // open a URL connection to the Servlet
+                    FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                    URL url = new URL(serverUrl[0]);
+
+                    // Open a HTTP  connection to  the URL
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // Allow Inputs
+                    conn.setDoOutput(true); // Allow Outputs
+                    conn.setUseCaches(false); // Don't use a Cached Copy
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Connection", "Keep-Alive");
+                    conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("uploaded_file", fileName);
+                    LOG.i(TAG,"fileName: " + fileName);
+
+                    dos = new DataOutputStream(conn.getOutputStream());
+
+                    // 이미지 전송
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"" + fileName + "\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+
+                    // create a buffer of  maximum size
+                    bytesAvailable = fileInputStream.available();
+
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    buffer = new byte[bufferSize];
+
+                    // read file and write it into form...
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        dos.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStream.available();
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                    }
+
+                    // send multipart form data necesssary after file data...
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                    // Responses from the server (code and message)
+                    serverResponseCode = conn.getResponseCode();
+                    String serverResponseMessage = conn.getResponseMessage();
+
+                    LOG.i(TAG, "[UploadImageToServer] HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+                    if (serverResponseCode == 200) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(PleaseReviseActivity.this, "작성 완료", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    //close the streams //
+                    fileInputStream.close();
+                    dos.flush();
+                    dos.close();
+
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(PleaseReviseActivity.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    LOG.i(TAG,"[UploadImageToServer] error: " + ex.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(PleaseReviseActivity.this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    LOG.i(TAG,"[UploadImageToServer] Upload file to server Exception Exception : " + e.getMessage());
+                }
+                LOG.i(TAG, "[UploadImageToServer] Finish");
+                return null;
+            } // End else block
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+        }
+    }
+    // =============================================================================================
+
 
 
     // =============================================================================================
@@ -583,6 +761,7 @@ public class PleaseReviseActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             if(s.equals("True")){
                 iv_view.setImageBitmap(bPicture);
+//                pleaseImage = sPictureUrl;
  //               Toast.makeText(PleaseReviseActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
             }
             else if(s.equals("UnsupportedEncodingException")){
@@ -590,6 +769,71 @@ public class PleaseReviseActivity extends AppCompatActivity {
             }
             else if(s.equals("IOException")){
       //          Toast.makeText(PleaseReviseActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(PleaseReviseActivity.this, "실패", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    // =============================================================================================
+
+    // =============================================================================================
+    // =========================== 서버로부터 이미지 받아오는 스레드2 ===============================
+    private class GetImageFromServer2 extends AsyncTask<String, String, String> {
+        URL Url;
+
+        @Override
+        protected void onPreExecute() {
+            LOG.i(TAG,"::::: [GetImageFromServer Start] :::::");
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                if (!sPictureUrl2.equals("")) {
+                    Url = new URL(ServerIP+sPictureUrl2);
+                    HttpURLConnection conn;
+                    conn = (HttpURLConnection) Url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+
+                    Bitmap PictureDefault = BitmapFactory.decodeStream(is);
+                    bPicture = PictureDefault != null ? PictureDefault : BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    conn.disconnect();
+                    is.close();
+                    return "True";
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist UnsupportedEncodingException");
+                e.printStackTrace();
+                return "UnsupportedEncodingException";
+            } catch (IOException e) {
+                LOG.i(TAG,"[GetImageFromServer] Frist IOException");
+                e.printStackTrace();
+                return "IOException";
+            }
+            return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("True")){
+                iv_view1.setImageBitmap(bPicture);
+//                pleaseImage2 = sPictureUrl2;
+                //         Toast.makeText(PleaseContentsActivity.this, "이미지 다운로드 성공.", Toast.LENGTH_SHORT).show();
+            }
+            else if(s.equals("UnsupportedEncodingException")){
+
+            }
+            else if(s.equals("IOException")){
+                //      Toast.makeText(PleaseContentsActivity.this, "서버에서 파일을 다운로드 받지 못했습니다.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(PleaseReviseActivity.this, "실패", Toast.LENGTH_SHORT).show();
