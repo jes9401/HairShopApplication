@@ -1,6 +1,9 @@
 package com.example.hairapplication;
 
 import android.app.AlertDialog;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,9 +16,13 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,11 +40,14 @@ public class MyPageActivity extends AppCompatActivity {
     TextView phoneNumber; // 서버에서 받아온 디자이너의 번호를 표시해줄 TextView
     ProgressDialog progressDialog;
     AlertDialog dialog;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
+
+
 
         Button myWriting = (Button)findViewById(R.id.mywriting);
         Button btnDial = (Button)findViewById(R.id.btnDial);
@@ -47,8 +57,25 @@ public class MyPageActivity extends AppCompatActivity {
         phoneNumber = (TextView)findViewById(R.id.phoneNumber);
         TextView userNickname = (TextView)findViewById(R.id.userNickname);
         Button infochangeButton = (Button)findViewById(R.id.infochange);
+        FrameLayout manLayout = (FrameLayout)findViewById(R.id.manLayout);
+        FrameLayout womanLayout = (FrameLayout)findViewById(R.id.womanLayout);
+
+        MobileAds.initialize(this, "ca-app-pub-3702276544026154~5593433490");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         userNickname.setText(MainActivity.nickname+ "님");
+
+                if(MainActivity.gender.equals("남성")){ // 라디오버튼 남자가 선택된 경우 남자 스타일 선택
+                    manLayout.setVisibility(View.VISIBLE);
+                    womanLayout.setVisibility(View.GONE);
+                }else{ // 라디오버튼 여자가 선택된 경우 여자 스타일 선택
+                    manLayout.setVisibility(View.GONE);
+                    womanLayout.setVisibility(View.VISIBLE);
+                }
+
+
 
         myWriting.setOnClickListener(new View.OnClickListener() {
             @Override

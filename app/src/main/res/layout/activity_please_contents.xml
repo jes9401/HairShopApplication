@@ -95,7 +95,7 @@
             <ImageView
                 android:id="@+id/iv_view"
                 android:layout_width="250dp"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center" />
 
             <LinearLayout

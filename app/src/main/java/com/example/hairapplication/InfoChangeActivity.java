@@ -59,8 +59,10 @@ public class InfoChangeActivity extends AppCompatActivity {
 
         if(MainActivity.type.equals("designer")){
             hairshopText.setVisibility(View.VISIBLE);
+        }else{
+            hairshopText.setVisibility(View.GONE);
         }
-
+        idText.setEnabled(false);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

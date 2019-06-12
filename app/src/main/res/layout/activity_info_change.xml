@@ -37,7 +37,7 @@
 
         <EditText
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:background="#c1c0b0"
@@ -152,7 +152,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:background="@color/colorMain"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
 
             />
 

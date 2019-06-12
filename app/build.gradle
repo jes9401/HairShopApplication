@@ -34,6 +34,6 @@ dependencies {
     implementation files('libs/mail.jar')
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation "gun0912.ted:tedpermission:2.2.2"
-
+    implementation 'com.google.android.gms:play-services-ads:17.1.1'
 
 }

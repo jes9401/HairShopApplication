@@ -11,15 +11,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@color/colorMain"
-                android:text="회원정보 수정"
-                android:id="@+id/infochange"
 
-                />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -45,14 +37,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/user"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/user" />
+                android:id="@+id/manLayout">
+
+                <ImageView
+                    android:id="@+id/man"
+                    android:layout_width="100dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/man" />
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/womanLayout">
+
+                <ImageView
+                    android:id="@+id/woman"
+                    android:layout_width="100dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/woman" />
+
+            </FrameLayout>
+
 
             <TextView
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user"
@@ -62,32 +78,16 @@
                 android:id="@+id/userNickname"
                 />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/mywriting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#27969EA2"
-                    android:text="   내가 쓴 글"
-                    android:textSize="15dp"
-
-                    />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="20dp"
-                android:background="#ffffff"
+                android:background="#FFF6FA"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:background="#27969EA2"
+                    android:background="#FFF6FA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -110,6 +110,7 @@
                      android:layout_height="wrap_content"
                      android:text="선택"
                      android:id="@+id/choice"
+                     android:background="@color/colorMainDark"
                      />
 
                 </LinearLayout>
@@ -123,6 +124,7 @@
                    >
 
                     <TextView
+                        android:padding="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="헤어샵 전화번호 : "
@@ -130,6 +132,8 @@
                         android:layout_marginLeft="15dp"
                         />
                     <TextView
+                        android:padding="3dp"
+
                         android:text=""
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -145,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="10dp">
 
 
 
@@ -171,15 +175,48 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/mywriting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorMain"
+                android:text="   내가 쓴 글"
+                android:textSize="15dp"
+                android:layout_margin="10dp"
+                />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@color/colorMain"
+                android:text="회원정보 수정"
+                android:id="@+id/infochange"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
         </LinearLayout>
 
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_margin="20dp"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        </com.google.android.gms.ads.AdView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="bottom"
             >
@@ -211,5 +248,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/map_2" />
         </LinearLayout>
+
+    </LinearLayout>
 
     </LinearLayout>

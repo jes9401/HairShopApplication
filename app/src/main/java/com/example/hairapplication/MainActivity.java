@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static String nickname;
     public static String type;
     public static String userID;
+    public static String gender;
     private AlertDialog dialog;
     ImageButton homeButton, mypageButton, mapButton;
 
@@ -280,7 +281,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("nickname = "+nickname , "nickname");
                 type = object.getString("type");
                 Log.e("nick type = "+type,"type");
-
+                gender = object.getString("gender");
+                Log.e("nick gender = "+gender,"gender");
 
 
 
