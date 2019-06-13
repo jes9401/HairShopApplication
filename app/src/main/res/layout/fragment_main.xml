@@ -43,6 +43,7 @@
                 android:orientation="horizontal"
                 >
                 <TextView
+                    android:gravity="center|left"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:textSize="18sp"
@@ -127,6 +128,7 @@
                 android:orientation="horizontal"
                 >
                 <TextView
+                    android:gravity="center|left"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:textSize="18sp"
