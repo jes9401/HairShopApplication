@@ -2,6 +2,7 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBack"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,92 +20,84 @@
                 android:id="@+id/cut_back"
                 android:background="#1EE91E63"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut1"
-                android:layout_weight="1"
-                android:scaleType="fitXY"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut2"
-                android:layout_weight="1"
-                android:scaleType="fitXY"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#허쉬컷\n#리소헤어"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut3"
-                android:layout_weight="1"
-                android:scaleType="fitXY"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#FFF5F5"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#긴머리레이어드컷컷\n#더크라운헤어"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+    >
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:src="@drawable/bob"
+        />
+    <TextView
+        android:textColor="#76384B"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="#앞머리 있는 단발 \n\n #원랭스컷 \n\n #애쉬브라운 "
+        />
+
+</LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
             <ImageView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut4"
-                android:scaleType="fitXY"
+                android:layout_margin="10dp"
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:src="@drawable/hushcut"
                 />
             <TextView
+                android:textColor="#76384B"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#단발태슬컷\n#보브컷"
-                android:layout_gravity="center"/>
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text=" #허쉬컷 \n\n #블루블랙 "
+                />
+
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:background="#FFF5F5"
+            android:orientation="horizontal"
+
+            >
+
             <ImageView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut5"
-                android:scaleType="fitXY"/>
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/middlecut" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#허쉬컷\n#롱허쉬컷"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wcut6"
-                android:scaleType="fitXY"/>
+                android:layout_gravity="center"
+                android:text="#중단발 \n\n #레이어드컷 \n\n #블론드 "
+                android:textColor="#76384B"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#파스텔숏컷"
-                android:layout_gravity="center"/>
+
         </LinearLayout>
     </LinearLayout>
+
+
+
+
 </ScrollView>

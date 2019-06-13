@@ -83,7 +83,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/edge"
                     android:gravity="center|left"
-
+                    android:padding="3dp"
                     android:textSize="17dp"></TextView>
 
             </LinearLayout>
@@ -91,6 +91,7 @@
 
 
             <ImageView
+                android:scaleType="fitCenter"
                 android:id="@+id/iv_view"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
@@ -98,6 +99,7 @@
                 android:layout_margin="1dp"/>
 
             <ImageView
+                android:scaleType="fitCenter"
                 android:id="@+id/iv_view2"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
