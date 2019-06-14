@@ -95,9 +95,9 @@
             android:text="작성자"
             android:layout_gravity="center"
             android:padding="3dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:id="@+id/nameText"
-
+            android:gravity="right"
             />
 
 

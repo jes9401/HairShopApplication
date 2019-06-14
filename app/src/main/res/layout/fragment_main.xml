@@ -48,7 +48,7 @@
                     android:layout_height="150dp"
                     android:textSize="18sp"
                     android:textColor="#B53F60"
-                    android:text="  보기만해도 시원한\n  헤어스타일 추천☆\n  #크롭컷\n  #이목구비 뚜렷\n  #짧은 헤어스타일"/>
+                    android:text="  다가오는 여름맞이\n  헤어스타일 추천☆\n  #긴머리 지겨워\n  #상큼 단발\n  #시크 숏컷"/>
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
