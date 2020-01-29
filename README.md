@@ -142,3 +142,9 @@
     ; height: 500px;">
 </div>
 - 하단 바에 지도 버튼을 선택하면 주변 미용실을 찾을 수 있다.  
+
+
+## 결과
+
+![awrad](https://github.com/kyu9341/HairShopApplication/blob/master/pictures/award.png)
+
